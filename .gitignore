@@ -30,3 +30,4 @@
 *.exe
 *.out
 *.app
+/demo2.2/*.user
