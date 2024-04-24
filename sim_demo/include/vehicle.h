@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+#include "data_pool.h"
 #include "sub_system.h"
 
 class SimEvent;
@@ -21,4 +22,5 @@ public:
 	virtual void on_sim_event(SimEvent* event) {}
 
 	std::vector<SubSystem*> _sub_systems;
+	DataPool _data_pool;
 };

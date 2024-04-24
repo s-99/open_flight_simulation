@@ -9,8 +9,15 @@ public:
 	Fcs() = default;
 	virtual ~Fcs() = default;
 
+	bool bind_data() override;
+	bool init() override;
 	void step(double dt, double t) override;
 
+	// inputs
+	double _stick_push, _stick_right, _pedal_right;
+
 	// outputs
-	ControlSurface _control_surface;
+	double _de, _da, _dr, _df;
+
+	DataBinder _binder;
 };

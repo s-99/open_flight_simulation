@@ -8,6 +8,8 @@ public:
 	Dynamic6DOF() = default;
 	virtual ~Dynamic6DOF() = default;
 
+	bool bind_data() override { return true; }
+	bool init() override { return true; }
 	void step(double dt, double t) override;
 
 	// inputs

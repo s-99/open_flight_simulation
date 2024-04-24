@@ -8,6 +8,8 @@ public:
 	Engine() = default;
 	virtual ~Engine() = default;
 
+	bool bind_data() override { return true; }
+	bool init() override { return true; }
 	void step(double dt, double t) override;
 
 };

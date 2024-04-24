@@ -18,14 +18,29 @@ int main()
     aircraft._sub_systems.push_back(new Aero());
     aircraft._sub_systems.push_back(new Dynamic6DOF());
 
-    double dt = 0.01;
-    for (int i = 0; i < 10; i++)
+    for (auto* sub_system : aircraft._sub_systems)
     {
-        auto* fcs = dynamic_cast<Fcs*>(aircraft._sub_systems[0]);
-        auto* aero = dynamic_cast<Aero*>(aircraft._sub_systems[2]);
-
-        aero->_control_surface = fcs->_control_surface;
-
-        aircraft.step(dt, i * dt);
+        sub_system->_vehicle = &aircraft;
     }
+
+    for (auto* sub_system : aircraft._sub_systems)
+    {
+        sub_system->init();
+    }
+
+    for (auto& item: aircraft._data_pool._data_items)
+    {
+        std::cout << item._publisher << ":" << item._name << "[" << item._type << "]" << std::endl;
+    }
+
+    for (auto* sub_system : aircraft._sub_systems)
+    {
+        sub_system->bind_data();
+    }
+
+    double dt = 0.01;
+    //for (int i = 0; i < 10; i++)
+    //{
+    //    aircraft.step(dt, i * dt);
+    //}
 }

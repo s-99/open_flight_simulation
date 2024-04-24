@@ -31,3 +31,17 @@
 *.out
 *.app
 /demo2.2/*.user
+*.ipch
+*.tlog
+*.pdb
+*.user
+*.log
+*.idb
+*.ilk
+*.vsidx
+*.suo
+*.db
+*.opendb
+*.recipe
+*.db-shm
+*.db-wal

@@ -39,6 +39,9 @@
     <ClCompile Include="src\sub_system.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\data_pool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
@@ -63,6 +66,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\sim_evnet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data_pool.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

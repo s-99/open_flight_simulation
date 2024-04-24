@@ -131,6 +131,7 @@
     <ClCompile Include="sim_demo.cpp" />
     <ClCompile Include="src\aero.cpp" />
     <ClCompile Include="src\aircraft.cpp" />
+    <ClCompile Include="src\data_pool.cpp" />
     <ClCompile Include="src\dynamic6dof.cpp" />
     <ClCompile Include="src\engine.cpp" />
     <ClCompile Include="src\fcs.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="include\aero.h" />
     <ClInclude Include="include\aircraft.h" />
+    <ClInclude Include="include\data_pool.h" />
     <ClInclude Include="include\dynamic_6dof.h" />
     <ClInclude Include="include\engine.h" />
     <ClInclude Include="include\fcs.h" />
