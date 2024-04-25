@@ -2,7 +2,7 @@
 //
 
 #include <iostream>
-#include "aero.h"
+#include "SubSystemAero.h"
 #include "dynamic_6dof.h"
 #include "engine.h"
 #include "fcs.h"
@@ -15,7 +15,7 @@ int main()
     Aircraft aircraft;
     aircraft._sub_systems.push_back(new Fcs());
     aircraft._sub_systems.push_back(new Engine());
-    aircraft._sub_systems.push_back(new Aero());
+    aircraft._sub_systems.push_back(new SubSystemAero());
     aircraft._sub_systems.push_back(new Dynamic6DOF());
 
     for (auto* sub_system : aircraft._sub_systems)

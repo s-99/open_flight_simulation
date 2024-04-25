@@ -18,7 +18,7 @@
     <ClCompile Include="sim_demo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\aero.cpp">
+    <ClCompile Include="src\SubSystemAero.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\fcs.cpp">
@@ -42,6 +42,12 @@
     <ClCompile Include="src\data_pool.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\aero_model.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="3rd_party\fparser\fparser.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
@@ -50,7 +56,7 @@
     <ClInclude Include="include\vehicle.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\aero.h">
+    <ClInclude Include="include\SubSystemAero.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\fcs.h">
@@ -69,6 +75,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\data_pool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\aero_model.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interpolate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

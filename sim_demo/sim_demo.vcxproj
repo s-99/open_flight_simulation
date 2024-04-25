@@ -104,7 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,6 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,8 +131,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="3rd_party\fparser\fparser.cc" />
     <ClCompile Include="sim_demo.cpp" />
-    <ClCompile Include="src\aero.cpp" />
+    <ClCompile Include="src\SubSystemAero.cpp" />
+    <ClCompile Include="src\aero_model.cpp" />
     <ClCompile Include="src\aircraft.cpp" />
     <ClCompile Include="src\data_pool.cpp" />
     <ClCompile Include="src\dynamic6dof.cpp" />
@@ -139,14 +144,17 @@
     <ClCompile Include="src\vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\aero.h" />
+    <ClInclude Include="include\SubSystemAero.h" />
+    <ClInclude Include="include\aero_model.h" />
     <ClInclude Include="include\aircraft.h" />
     <ClInclude Include="include\data_pool.h" />
     <ClInclude Include="include\dynamic_6dof.h" />
     <ClInclude Include="include\engine.h" />
     <ClInclude Include="include\fcs.h" />
+    <ClInclude Include="include\interpolate.h" />
     <ClInclude Include="include\sim_evnet.h" />
     <ClInclude Include="include\sub_system.h" />
+    <ClInclude Include="include\util.h" />
     <ClInclude Include="include\vehicle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

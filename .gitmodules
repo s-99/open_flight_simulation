@@ -1,0 +1,6 @@
+[submodule "sim_demo/3rd_party/fparser"]
+	path = sim_demo/3rd_party/fparser
+	url = https://github.com/thliebig/fparser
+[submodule "sim_demo/3rd_party/json"]
+	path = sim_demo/3rd_party/json
+	url = https://github.com/nlohmann/json
