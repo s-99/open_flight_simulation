@@ -156,6 +156,8 @@
   <ItemGroup>
     <ClInclude Include="3rd_party\fmtlog\fmtlog.h" />
     <ClInclude Include="include\data_recorder.h" />
+    <ClInclude Include="include\matrix3x3.h" />
+    <ClInclude Include="include\quat.h" />
     <ClInclude Include="include\sim_event.h" />
     <ClInclude Include="include\SubSystemAero.h" />
     <ClInclude Include="include\aero_model.h" />
@@ -167,6 +169,7 @@
     <ClInclude Include="include\interpolate.h" />
     <ClInclude Include="include\sub_system.h" />
     <ClInclude Include="include\util.h" />
+    <ClInclude Include="include\vec3.h" />
     <ClInclude Include="include\vehicle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

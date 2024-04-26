@@ -101,5 +101,14 @@
     <ClInclude Include="3rd_party\fmtlog\fmtlog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\vec3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\matrix3x3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\quat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

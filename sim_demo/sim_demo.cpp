@@ -15,7 +15,7 @@ int main()
 {
     fmtlog::setLogFile("sim_demo.log", true);
     fmtlog::setHeaderPattern("+++ {YmdHMSe} {l} {s}\n");
-    fmtlog::setLogLevel(fmtlog::INF);
+    fmtlog::setLogLevel(fmtlog::ERR);
 
     logi("sim_demo start.\n");
 
