@@ -1,12 +1,10 @@
 #include "Fcs.h"
 
-#include <cstdio>
-
 #include "vehicle.h"
 
 void Fcs::step(double dt, double t)
 {
-	printf("Fcs::step\n");
+	logi("Fcs::step\n");
 }
 
 

@@ -1,8 +1,8 @@
 #include "engine.h"
 
-#include <cstdio>
+#include "fmtlog.h"
 
 void Engine::step(double dt, double t)
 {
-	printf("Engine::step\n");
+	logi("Engine::step\n");
 }

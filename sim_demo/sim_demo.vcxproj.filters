@@ -48,6 +48,15 @@
     <ClCompile Include="3rd_party\fparser\fparser.cc">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\data_recorder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="3rd_party\fmtlog\fmtlog.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="3rd_party\fmtlog\fmt\src\format.cc">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
@@ -71,9 +80,6 @@
     <ClInclude Include="include\aircraft.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\sim_evnet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\data_pool.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -84,6 +90,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data_recorder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sim_event.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd_party\fmtlog\fmtlog.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,9 +3,11 @@
 
 #include <cstdio>
 
+#include "fmtlog.h"
+
 void SubSystemAero::step(double dt, double t)
 {
-	printf("SubSystemAero::step\n");
+	logi("SubSystemAero::step\n");
 
 	_binder.update();
 
@@ -24,7 +26,9 @@ void SubSystemAero::step(double dt, double t)
 
 bool SubSystemAero::init()
 {
-	_model.parse("aero.json");
+	_model.parse("fat.json");
+
+	logi("load aero model success, content=\n{}\n", _model.dump());
 
 	_vehicle->_data_pool.reg_data("Fx", _Fx, "SubSystemAero");
 	_vehicle->_data_pool.reg_data("Fy", _Fy, "SubSystemAero");
@@ -55,7 +59,7 @@ bool SubSystemAero::bind_data()
 	{
 		if (!_binder.bind(_vehicle->_data_pool, v->_name, v->_value))
 		{
-			printf("bind %s failed\n", v->_name.c_str());
+			loge("bind {} failed\n", v->_name);
 			return false;
 		}
 	}

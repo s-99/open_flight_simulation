@@ -8,10 +8,17 @@
 #include "fcs.h"
 #include "vehicle.h"
 #include "aircraft.h"
+#include "fmtlog.h"
 
 
 int main()
 {
+    fmtlog::setLogFile("sim_demo.log", true);
+    fmtlog::setHeaderPattern("+++ {YmdHMSe} {l} {s}\n");
+    fmtlog::setLogLevel(fmtlog::INF);
+
+    logi("sim_demo start.\n");
+
     Aircraft aircraft;
     aircraft._sub_systems.push_back(new Fcs());
     aircraft._sub_systems.push_back(new Engine());
@@ -28,10 +35,7 @@ int main()
         sub_system->init();
     }
 
-    for (auto& item: aircraft._data_pool._data_items)
-    {
-        std::cout << item._publisher << ":" << item._name << "[" << item._type << "]" << std::endl;
-    }
+    aircraft._data_pool.dump();
 
     for (auto* sub_system : aircraft._sub_systems)
     {
@@ -39,8 +43,9 @@ int main()
     }
 
     double dt = 0.01;
-    //for (int i = 0; i < 10; i++)
-    //{
-    //    aircraft.step(dt, i * dt);
-    //}
+    for (int i = 0; i < 10; i++)
+    {
+        aircraft.step(dt, i * dt);
+        fmtlog::poll();
+    }
 }

@@ -1,8 +1,8 @@
 #include "dynamic_6dof.h"
 
-#include <cstdio>
+#include "fmtlog.h"
 
 void Dynamic6DOF::step(double dt, double t)
 {
-	printf("Dynamic6DOF::step\n");
+	logi("Dynamic6DOF::step\n");
 }

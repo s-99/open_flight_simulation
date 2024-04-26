@@ -1,10 +1,10 @@
 #include "aero_model.h"
 #include "util.h"
-#include "extrasrc/fpaux.hh"
 
 #include <iostream>
 #include <fstream>
 #include <format>
+#include "fmtlog.h"
 
 
 bool Table::parse(const string& name, const json::object_t& content)
@@ -23,7 +23,7 @@ bool Table::parse(const string& name, const json::object_t& content)
 			}
 			catch (const std::exception& e)
 			{
-				std::cout << "Table \"" << _name << "\" x0 parse failed: " << e.what() << std::endl;
+				loge("Table::parse: Table {} x0 parse failed: {}\n", _name, e.what());
 				return false;
 			}
 		}
@@ -36,7 +36,7 @@ bool Table::parse(const string& name, const json::object_t& content)
 			}
 			catch (const std::exception& e)
 			{
-				std::cout << "Table \"" << _name << "\" x1 parse failed: " << e.what() << std::endl;
+				loge("Table::parse: Table {} x1 parse failed: {}\n", _name, e.what());
 				return false;
 			}
 		}
@@ -48,7 +48,7 @@ bool Table::parse(const string& name, const json::object_t& content)
 			}
 			catch (const std::exception& e)
 			{
-				std::cout << "Table \"" << _name << "\" data parse failed: " << e.what() << std::endl;
+				loge("Table::parse: Table {} data parse failed: {}\n", _name, e.what());
 				return false;
 			}
 		}
@@ -57,7 +57,7 @@ bool Table::parse(const string& name, const json::object_t& content)
 	{
 		if (v.size() != _x0.size() * _x1.size())
 		{
-			std::cout << "Table \"" << _name << "\" data size mismatch: " << v.size() << " != " << _x0.size() * _x1.size() << std::endl;
+			loge("Table::parse: Table {} data size mismatch: v.size={}, x0.size*x1.size={}.\n", _name, v.size(), _x0.size() * _x1.size());
 			return false;
 		}
 		_value = reshape(v, _x1.size(), _x0.size());
@@ -66,7 +66,7 @@ bool Table::parse(const string& name, const json::object_t& content)
 	{
 		if (v.size() != _x0.size())
 		{
-			std::cout << "Table \"" << _name << "\" data size mismatch: " << v.size() << " != " << _x0.size() << std::endl;
+			loge("Table::parse: Table {} data size mismatch: v.size={}, x0.size={}.\n", _name, v.size(), _x0.size());
 			return false;
 		}
 		_value = reshape(v, 1, _x0.size());
@@ -102,7 +102,7 @@ bool CellTable::parse()
 {
 	if (auto* table = _model->find_table(_content); !table)
 	{
-		std::cout << "Table not found: " << _content << std::endl;
+		loge("CellTable::parse: Table not found: {}\n", _content);
 		return false;
 	}
 	else
@@ -113,7 +113,7 @@ bool CellTable::parse()
 	
 	if (auto* c = _model->find_cell(_table->_x0_name); !c)
 	{
-		std::cout << "parse \"" << _name << "\" failed, x0 not found: " << _table->_x0_name << std::endl;
+		loge("CellTable::parse: parse {} failed, x0 not found: {}\n", _name, _table->_x0_name);
 		return false;
 	}
 	else
@@ -126,7 +126,7 @@ bool CellTable::parse()
 		_interpolator = new Interpolator2DLinear(_table->_x0, _table->_x1, _table->_value);
 		if (auto* c = _model->find_cell(_table->_x1_name); !c)
 		{
-			std::cout << "parse \"" << _name << "\" failed, x1 not found: " << _table->_x1_name << std::endl;
+			loge("CellTable::parse: parse {} failed, x1 not found: {}\n", _name, _table->_x1_name);
 			return false;
 		}
 		else
@@ -155,13 +155,13 @@ void CellTable::eval()
 {
 	if (_table->_dim == 2)
 	{
-		auto& x0 = _refs[0]->_value;
-		auto& x1 = _refs[1]->_value;
+		const auto& x0 = _refs[0]->_value;
+		const auto& x1 = _refs[1]->_value;
 		_value = dynamic_cast<Interpolator2DLinear*>(_interpolator)->eval(x0, x1);
 	}
 	else
 	{
-		auto& x0 = _refs[0]->_value;
+		const auto& x0 = _refs[0]->_value;
 		_value = dynamic_cast<InterpolatorLinear*>(_interpolator)->eval(x0);
 	}
 }
@@ -183,7 +183,8 @@ bool CellFormula::parse()
 	int r = _parser->ParseAndDeduceVariables(_content, variables);
 	if (r != -1)
 	{
-		std::cout << "Parse error: content=" << _content << std::endl;
+		loge("CellFormula::parse: parse {} failed, content: {}, error: {}, pos={}\n",
+			_name, _content, _parser->ErrorMsg(), r);
 		return false;
 	}
 
@@ -192,7 +193,7 @@ bool CellFormula::parse()
 	{
 		if (auto* c = _model->find_cell(v); !c)
 		{
-			std::cout << "parse \"" << _name << "\" failed, variable not found: " << v << std::endl;
+			loge("CellFormula::parse: parse {} failed, variable not found: {}\n", _name, v);
 			return false;
 		}
 		else
@@ -249,7 +250,7 @@ bool AeroModel::parse(const string& filename)
 	}
 	catch (json::parse_error& e)
 	{
-		std::cout << "Parse error: " << e.what() << std::endl;
+		loge("Parse error: {}", e.what());
 		return false;
 	}
 	auto table = data["table"];
@@ -257,7 +258,10 @@ bool AeroModel::parse(const string& filename)
 	{
 		auto* t = _tables.emplace_back(new Table);
 		if (auto r = t->parse(key, value); !r)
+		{
+			loge("Parse table error: {}", key);
 			return false;
+		}
 	}
 
 	auto model = data["model"];
@@ -279,10 +283,13 @@ bool AeroModel::parse(const string& filename)
 		_inputs.emplace_back(new CellInput(this, key, value));
 	}
 
-	for (auto& cell : _cells)
+	for (auto* cell : _cells)
 	{
 		if (!cell->parse())
+		{
+			loge("Parse cell error: {}", cell->_name);
 			return false;
+		}
 	}
 
 	return true;

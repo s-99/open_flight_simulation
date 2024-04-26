@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 
+#include "fmtlog.h"
+
 class DataItem
 {
 public:
@@ -18,8 +20,13 @@ class DataPool
 public:
 	std::vector<DataItem> _data_items;
 
-	void reg_data(const std::string& name, double& v, const std::string& publisher)
+	bool reg_data(const std::string& name, double& v, const std::string& publisher)
 	{
+		if (find_data(name))
+		{
+			loge("DataPool::reg_data: duplicate data name: {}, publisher: {}\n", name, publisher);
+			return false;
+		}
 		DataItem item;
 		item._name = name;
 		item._type = 'd';
@@ -27,10 +34,16 @@ public:
 		item._length = sizeof(double);
 		item._publisher = publisher;
 		_data_items.push_back(item);
+		return true;
 	}
 
-	void reg_data(const std::string& name, int& v, const std::string& publisher)
+	bool reg_data(const std::string& name, int& v, const std::string& publisher)
 	{
+		if (find_data(name))
+		{
+			loge("DataPool::reg_data: duplicate data name: {}, publisher: {}\n", name, publisher);
+			return false;
+		}
 		DataItem item;
 		item._name = name;
 		item._type = 'i';
@@ -38,10 +51,16 @@ public:
 		item._length = sizeof(int);
 		item._publisher = publisher;
 		_data_items.push_back(item);
+		return true;
 	}
 
-	void reg_data(const std::string& name, bool& v, const std::string& publisher)
+	bool reg_data(const std::string& name, bool& v, const std::string& publisher)
 	{
+		if (find_data(name))
+		{
+			loge("DataPool::reg_data: duplicate data name: {}, publisher: {}\n", name, publisher);
+			return false;
+		}
 		DataItem item;
 		item._name = name;
 		item._type = '?';
@@ -49,6 +68,7 @@ public:
 		item._length = sizeof(bool);
 		item._publisher = publisher;
 		_data_items.push_back(item);
+		return true;
 	}
 
 	DataItem* find_data(const std::string& name)
@@ -61,6 +81,16 @@ public:
 			}
 		}
 		return nullptr;
+	}
+
+	void dump()
+	{
+		std::string buffer;
+		for (auto& item : _data_items)
+		{
+			std::format_to(std::back_inserter(buffer), "{}:{}[{}]\n", item._publisher, item._name, item._type);
+		}
+		logi("DataPool::dump\n{}", buffer);
 	}
 };
 
@@ -153,6 +183,6 @@ public:
 #define BIND_DATA(v) \
 	if (!_binder.bind(_vehicle->_data_pool, #v, _##v)) \
 	{ \
-		printf("bind %s failed\n", #v); \
+		loge("BIND_DATA: bind {} failed.\n", #v); \
 		return false; \
 	}
