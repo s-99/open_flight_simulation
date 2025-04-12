@@ -2,13 +2,8 @@
 //
 
 #include <iostream>
-#include "SubSystemAero.h"
-#include "dynamic_6dof.h"
-#include "engine.h"
-#include "fcs.h"
-#include "vehicle.h"
-#include "aircraft.h"
 #include "fmtlog.h"
+#include "sim_engine.h"
 
 
 int main()
@@ -19,33 +14,16 @@ int main()
 
     logi("sim_demo start.\n");
 
-    Aircraft aircraft;
-    aircraft._sub_systems.push_back(new Fcs());
-    aircraft._sub_systems.push_back(new Engine());
-    aircraft._sub_systems.push_back(new SubSystemAero());
-    aircraft._sub_systems.push_back(new Dynamic6DOF());
+    SimEngine sim_engine;
 
-    for (auto* sub_system : aircraft._sub_systems)
+    if (!sim_engine.parse_mission("demo_mission.json"))
     {
-        sub_system->_vehicle = &aircraft;
+		loge("parse mission failed\n");
+		return -1;
     }
 
-    for (auto* sub_system : aircraft._sub_systems)
-    {
-        sub_system->init();
-    }
-
-    aircraft._data_pool.dump();
-
-    for (auto* sub_system : aircraft._sub_systems)
-    {
-        sub_system->bind_data();
-    }
-
-    double dt = 0.01;
-    for (int i = 0; i < 10; i++)
-    {
-        aircraft.step(dt, i * dt);
-        fmtlog::poll();
-    }
+	while (sim_engine.step())
+	{
+		fmtlog::poll();
+	}
 }

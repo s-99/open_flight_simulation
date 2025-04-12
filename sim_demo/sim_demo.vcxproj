@@ -125,9 +125,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann;3rd_party\fmtlog\fmt\include;3rd_party\fmtlog</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -143,7 +143,8 @@
     <ClCompile Include="3rd_party\fparser\fparser.cc" />
     <ClCompile Include="sim_demo.cpp" />
     <ClCompile Include="src\data_recorder.cpp" />
-    <ClCompile Include="src\SubSystemAero.cpp" />
+    <ClCompile Include="src\sim_engine.cpp" />
+    <ClCompile Include="src\sub_system_aero.cpp" />
     <ClCompile Include="src\aero_model.cpp" />
     <ClCompile Include="src\aircraft.cpp" />
     <ClCompile Include="src\data_pool.cpp" />
@@ -158,8 +159,9 @@
     <ClInclude Include="include\data_recorder.h" />
     <ClInclude Include="include\matrix3x3.h" />
     <ClInclude Include="include\quat.h" />
+    <ClInclude Include="include\sim_engine.h" />
     <ClInclude Include="include\sim_event.h" />
-    <ClInclude Include="include\SubSystemAero.h" />
+    <ClInclude Include="include\sub_system_aero.h" />
     <ClInclude Include="include\aero_model.h" />
     <ClInclude Include="include\aircraft.h" />
     <ClInclude Include="include\data_pool.h" />
@@ -171,6 +173,10 @@
     <ClInclude Include="include\util.h" />
     <ClInclude Include="include\vec3.h" />
     <ClInclude Include="include\vehicle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\demo_mission.json" />
+    <None Include="bin\fat.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

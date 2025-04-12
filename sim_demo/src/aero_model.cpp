@@ -253,6 +253,12 @@ bool AeroModel::parse(const string& filename)
 		loge("Parse error: {}", e.what());
 		return false;
 	}
+	return parse(data);
+}
+
+
+bool AeroModel::parse(const json& data)
+{
 	auto table = data["table"];
 	for (auto& [key, value] : table.items())
 	{

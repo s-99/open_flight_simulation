@@ -1,0 +1,29 @@
+{
+  "type": "mission",
+  "time_step": 0.01,
+  "max_time": 10,
+  "vehicles": [
+    {
+      "type": "aircraft",
+      "data_file": "fat.json",
+      "init_pos": [ 0, 0, -1000 ],
+      "init_psi": 0,
+      "init_velocity": 20,
+      "sub_systems": [
+        {
+          "type": "fcs"
+        },
+        {
+          "type": "engine"
+        },
+        {
+          "type": "aerodynamic",
+          "recorder_filename": "aero.csv"
+        },
+        {
+          "type": "dynamic6dof"
+        }
+      ]
+    }
+  ]
+}

@@ -4,5 +4,4 @@
 
 void Engine::step(double dt, double t)
 {
-	logi("Engine::step\n");
 }

@@ -7,6 +7,7 @@
 #include "quat.h"
 #include "util.h"
 #include "fmtlog.h"
+#include "vehicle.h"
 
 
 template<typename T>
@@ -58,8 +59,6 @@ auto auxiliary_equation(const Vec3& Va, const Vec3& Va_dot, double rho)
 
 void Dynamic6DOF::step(double dt, double t)
 {
-	logi("Dynamic6DOF::step\n");
-
 	auto [V_dot, Omega_dot, x_dot, Q_dot] = dynamic_equation(
 		{ _Fx, _Fy, _Fz },
 		{ _L, _M, _N },
@@ -80,27 +79,17 @@ void Dynamic6DOF::step(double dt, double t)
 	auto [density, sound_speed] = cal_std_atm(-_pos[2]);
 	std::tie(_Vel, _alpha, _beta, _alpha_dot, _q_bar) = auxiliary_equation(_Va, V_dot, density);
 	_mach = _Vel / sound_speed;
+
+	_h = -_pos[2];
 }
 
 
-using json = nlohmann::json;
-
-bool Dynamic6DOF::init()
+bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config)
 {
 	logi("Dynamic6DOF::init\n");
-	std::ifstream f("fat.json");
-	json data;
-	try
-	{
-		data = json::parse(f);
-	}
-	catch (nlohmann::json::parse_error& e)
-	{
-		loge("Parse error: {}", e.what());
-		return false;
-	}
 
-	auto& dyn = data["dyn"];
+	// 质量及惯矩数据初始化
+	auto& dyn = _vehicle->_data_file["dyn"];
 	_mass = dyn["mass"];
 	double Ix = dyn["Ix"];
 	double Iy = dyn["Iy"];
@@ -111,5 +100,37 @@ bool Dynamic6DOF::init()
 			0, Iy, 0,
 			-Ixz, 0, Iz
 		};
+
+	_recorder.init(read_json_string(sub_system_config, "recorder_filename"));
+
+	_pos = read_json_vec3(vehicle_config, "init_pos", {0, 0, -10});
+	_euler[2] = read_json_double(vehicle_config, "init_psi", 0);
+	_V[0] = read_json_double(vehicle_config, "init_velocity", 0);
+	_Vel = _V[0];
+
+	reg_data("u", _V[0]);
+	reg_data("v", _V[1]);
+	reg_data("w", _V[2]);
+	reg_data("p", _Omega[0]);
+	reg_data("q", _Omega[1]);
+	reg_data("r", _Omega[2]);
+	reg_data("ps", _Omega[0]);
+	reg_data("qs", _Omega[1]);
+	reg_data("rs", _Omega[2]);
+	reg_data("x", _pos[0]);
+	reg_data("y", _pos[1]);
+	reg_data("z", _pos[2]);
+	reg_data("q0", _quat[0]);
+	reg_data("q1", _quat[1]);
+	reg_data("q2", _quat[2]);
+	reg_data("q3", _quat[2]);
+	reg_data("vel", _Vel);
+	reg_data("alpha", _alpha);
+	reg_data("beta", _beta);
+	reg_data("alpha_d", _alpha_dot);
+	reg_data("qq", _q_bar);
+	reg_data("mach", _mach);
+	reg_data("h", _h);
+
 	return true;
 }

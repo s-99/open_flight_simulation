@@ -3,6 +3,10 @@
 
 void DataRecorder::init(const std::string& filename)
 {
+	if (filename.empty())
+	{
+		return;
+	}
 	_file = fopen(filename.c_str(), "wt");
 	fprintf(_file, "t");
 }
@@ -10,6 +14,10 @@ void DataRecorder::init(const std::string& filename)
 
 void DataRecorder::reg(const std::string& name, double& value)
 {
+	if (!_file)
+	{
+		return;
+	}
 	RecorderItem item;
 	item._name = name;
 	item._type = 'd';
@@ -22,6 +30,10 @@ void DataRecorder::reg(const std::string& name, double& value)
 
 void DataRecorder::reg(const std::string& name, int& value)
 {
+	if (!_file)
+	{
+		return;
+	}
 	RecorderItem item;
 	item._name = name;
 	item._type = 'i';
@@ -34,6 +46,10 @@ void DataRecorder::reg(const std::string& name, int& value)
 
 void DataRecorder::update(double t)
 {
+	if (!_file)
+	{
+		return;
+	}
 	fprintf(_file, "\n%g", t);
 	for (const auto& item : _items)
 	{

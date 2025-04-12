@@ -3,10 +3,13 @@
 #include <string>
 #include <vector>
 #include <format>
+#include "json.hpp"
+#include "fmtlog.h"
+#include "vec3.h"
 
 using std::string;
 using std::vector;
-
+using nlohmann::json;
 
 inline
 bool starts_with(const string& str, const string& prefix)
@@ -78,4 +81,81 @@ auto cal_std_atm(const double h)
 	}
 	sound_speed = 20.046796 * sqrt(temperature);
 	return std::make_tuple(density, sound_speed);
+}
+
+
+inline
+std::string read_json_string(const json& data, const std::string& key)
+{
+	if (data.contains(key))
+	{
+		if (data[key].is_string())
+		{
+			return data[key].get<std::string>();
+		}
+		else
+		{
+			logi("json key {} is not string\n", key);
+			return "";
+		}
+	}
+	else
+	{
+		logi("json key {} not found\n", key);
+		return "";
+	}
+}
+
+inline
+double read_json_double(const json& data, const std::string& key, const double default_value)
+{
+	if (data.contains(key))
+	{
+		if (data[key].is_number())
+		{
+			return data[key].get<double>();
+		}
+		else
+		{
+			logi("json key {} is not double\n", key);
+			return default_value;
+		}
+	}
+	else
+	{
+		logi("json key {} not found\n", key);
+		return default_value;
+	}
+}
+
+
+inline
+Vec3 read_json_vec3(const json& data, const std::string& key, const Vec3& default_value)
+{
+	if (data.contains(key))
+	{
+		try
+		{
+			auto vec = data[key].get<std::vector<double>>();
+			if (vec.size() == 3)
+			{
+				return Vec3(vec[0], vec[1], vec[2]);
+			}
+			else
+			{
+				logi("json key {} is not vec3\n", key);
+				return default_value;
+			}
+		}
+		catch (json::type_error& e)
+		{
+			logi("json key {} is not array\n", key);
+			return default_value;
+		}
+	}
+	else
+	{
+		logi("json key {} not found\n", key);
+		return default_value;
+	}
 }

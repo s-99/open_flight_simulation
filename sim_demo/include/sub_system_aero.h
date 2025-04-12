@@ -8,10 +8,13 @@
 class SubSystemAero : public SubSystem
 {
 public:
-	SubSystemAero() = default;
-	virtual ~SubSystemAero() = default;
+	SubSystemAero()
+	{
+		_class_name = "SubSystemAero";
+	}
+	~SubSystemAero() override = default;
 
-	bool init() override;
+	bool init(const json& vehicle_config, const json& sub_system_config) override;
 	bool bind_data() override;
 	void step(double dt, double t) override;
 

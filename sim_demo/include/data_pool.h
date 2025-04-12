@@ -180,9 +180,9 @@ public:
 	}
 };
 
+
 #define BIND_DATA(v) \
 	if (!_binder.bind(_vehicle->_data_pool, #v, _##v)) \
 	{ \
-		loge("BIND_DATA: bind {} failed.\n", #v); \
-		return false; \
+		failed_input += #v ","; \
 	}

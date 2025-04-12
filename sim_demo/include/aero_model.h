@@ -135,6 +135,7 @@ public:
 	}
 
 	bool parse(const string& filename);
+	bool parse(const json& data);
 	string dump() const;
 	string dump_value() const;
 	void eval();

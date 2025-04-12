@@ -1,16 +1,19 @@
 #pragma once
-#include "SubSystemAero.h"
+#include "data_pool.h"
 #include "sub_system.h"
 
 
 class Fcs : public SubSystem
 {
 public:
-	Fcs() = default;
+	Fcs()
+	{
+		_class_name = "Fcs";
+	}
 	virtual ~Fcs() = default;
 
 	bool bind_data() override;
-	bool init() override;
+	bool init(const json& vehicle_config, const json& sub_system_config) override;
 	void step(double dt, double t) override;
 
 	// inputs

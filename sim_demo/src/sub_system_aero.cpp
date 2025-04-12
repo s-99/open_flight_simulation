@@ -1,9 +1,10 @@
-#include "SubSystemAero.h"
+#include "sub_system_aero.h"
 #include "vehicle.h"
 
 #include <cstdio>
 
 #include "fmtlog.h"
+#include "util.h"
 
 void SubSystemAero::step(double dt, double t)
 {
@@ -24,9 +25,9 @@ void SubSystemAero::step(double dt, double t)
 }
 
 
-bool SubSystemAero::init()
+bool SubSystemAero::init(const json& vehicle_config, const json& sub_system_config)
 {
-	_model.parse("fat.json");
+	_model.parse(_vehicle->_data_file);
 
 	logi("load aero model success, content=\n{}\n", _model.dump());
 
@@ -37,7 +38,7 @@ bool SubSystemAero::init()
 	_vehicle->_data_pool.reg_data("M", _M, "SubSystemAero");
 	_vehicle->_data_pool.reg_data("N", _N, "SubSystemAero");
 
-	_recorder.init("aero.csv");
+	_recorder.init(read_json_string(sub_system_config, "recorder_filename"));
 
 	for (auto* input: _model._inputs)
 	{

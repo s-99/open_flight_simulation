@@ -4,7 +4,10 @@
 class Aircraft : public Vehicle
 {
 public:
-	Aircraft() = default;
+	Aircraft()
+	{
+		_class_name = "Aircraft";
+	}
 	virtual ~Aircraft() = default;
 
 	void step(double dt, double t) override;
