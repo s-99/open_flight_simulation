@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <vector>
@@ -10,6 +10,7 @@
 using std::string;
 using std::vector;
 using nlohmann::json;
+
 
 inline
 bool starts_with(const string& str, const string& prefix)
@@ -53,9 +54,9 @@ string dump_vector(const vector<double>& v, int n)
 
 
 
-//ÓĞĞ§µØÇò°ë¾¶,µ¥Î»m
+//æœ‰æ•ˆåœ°çƒåŠå¾„,å•ä½m
 #define R_EARTH 6356.766e3
-//º£Æ½ÃæÖØÁ¦¼ÓËÙ¶È,µ¥Î»m/s^2
+//æµ·å¹³é¢é‡åŠ›åŠ é€Ÿåº¦,å•ä½m/s^2
 #define GRAVITY0 9.80665    
 
 
@@ -64,17 +65,17 @@ auto cal_std_atm(const double h)
 {
 	double H = (R_EARTH * h) / (R_EARTH + h);
 	double temperature, pressure, density, sound_speed;
-	//¸ù¾İ²»Í¬º£°Î¸ß¶ÈÑ¡Ôñ²»Í¬¹«Ê½½øĞĞ¼ÆËã
+	//æ ¹æ®ä¸åŒæµ·æ‹”é«˜åº¦é€‰æ‹©ä¸åŒå…¬å¼è¿›è¡Œè®¡ç®—
 	if (H <= 11000)
 	{
-		//288.15:±ê×¼º£Æ½ÃæÎÂ¶È
+		//288.15:æ ‡å‡†æµ·å¹³é¢æ¸©åº¦
 		temperature = 288.15 - 0.0065 * H;
 		pressure = 101325 * pow(1 - 0.225577e-4 * H, 5.25588);
 		density = 1.225 * pow(1 - 0.225577e-4 * H, 4.25588);
 	}
 	else // if (H <= 20000)
 	{
-		//216.65:±ê×¼Í¬ÎÂ²ãÎÂ¶È
+		//216.65:æ ‡å‡†åŒæ¸©å±‚æ¸©åº¦
 		temperature = 216.65;
 		pressure = 22632.04 * exp(-1.576885e-4 * (H - 11000));
 		density = 0.3639176 * exp(-1.576885e-4 * (H - 11000));
@@ -128,6 +129,28 @@ double read_json_double(const json& data, const std::string& key, const double d
 	}
 }
 
+inline
+int read_json_int(const json& data, const std::string& key, const int default_value)
+{
+	if (data.contains(key))
+	{
+		if (data[key].is_number())
+		{
+			return data[key].get<int>();
+		}
+		else
+		{
+			logi("json key {} is not double\n", key);
+			return default_value;
+		}
+	}
+	else
+	{
+		logi("json key {} not found\n", key);
+		return default_value;
+	}
+}
+
 
 inline
 Vec3 read_json_vec3(const json& data, const std::string& key, const Vec3& default_value)
@@ -149,7 +172,7 @@ Vec3 read_json_vec3(const json& data, const std::string& key, const Vec3& defaul
 		}
 		catch (json::type_error& e)
 		{
-			logi("json key {} is not array\n", key);
+			logi("json key {} is not array, error={}\n", key, e.what());
 			return default_value;
 		}
 	}

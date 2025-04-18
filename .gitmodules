@@ -1,9 +1,13 @@
+
+[submodule "sim_demo/3rd_party/getopt"]
+	path = sim_demo/3rd_party/getopt
+	url = git@github.com:r-lyeh-archived/getopt.git
 [submodule "sim_demo/3rd_party/fparser"]
 	path = sim_demo/3rd_party/fparser
-	url = https://github.com/thliebig/fparser
+	url = git@github.com:thliebig/fparser.git
 [submodule "sim_demo/3rd_party/json"]
 	path = sim_demo/3rd_party/json
-	url = https://github.com/nlohmann/json
+	url = git@github.com:nlohmann/json.git
 [submodule "sim_demo/3rd_party/fmtlog"]
 	path = sim_demo/3rd_party/fmtlog
-	url = https://github.com/MengRao/fmtlog
+	url = git@github.com:MengRao/fmtlog.git

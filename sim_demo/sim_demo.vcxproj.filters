@@ -18,9 +18,6 @@
     <ClCompile Include="sim_demo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\SubSystemAero.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="src\fcs.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -57,15 +54,24 @@
     <ClCompile Include="3rd_party\fmtlog\fmt\src\format.cc">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\sim_engine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sub_system_aero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sig_genarator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="3rd_party\getopt\getopt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\vehicle.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SubSystemAero.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\fcs.h">
@@ -110,5 +116,21 @@
     <ClInclude Include="include\quat.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\sim_engine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sub_system_aero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sig_generator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd_party\getopt\getopt.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\demo_mission.json" />
+    <None Include="bin\fat.json" />
   </ItemGroup>
 </Project>

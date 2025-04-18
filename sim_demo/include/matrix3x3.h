@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 
-// ±¾³ÌĞòÔÚcopilot¸¨ÖúÏÂÉú³É
+// æœ¬ç¨‹åºåœ¨copilotè¾…åŠ©ä¸‹ç”Ÿæˆ
 
 #include "vec3.h"
 
-// 3x3¾ØÕó
-// ĞĞÓÅÏÈ´æ´¢
+// 3x3çŸ©é˜µ
+// è¡Œä¼˜å…ˆå­˜å‚¨
 class Matrix3x3
 {
 protected:
@@ -43,7 +43,7 @@ public:
 		return _data[row * 3 + col];
 	}
 
-	// ¾ØÕó³Ë±êÁ¿
+	// çŸ©é˜µä¹˜æ ‡é‡
 	Matrix3x3 operator *(const double other) const
 	{
 		return {
@@ -53,7 +53,7 @@ public:
 		};
 	}
 
-	// ¾ØÕó³ı±êÁ¿
+	// çŸ©é˜µé™¤æ ‡é‡
 	Matrix3x3 operator /(const double other) const
 	{
 		return {
@@ -63,7 +63,7 @@ public:
 		};
 	}
 
-	// ¾ØÕó³ËÊ¸Á¿
+	// çŸ©é˜µä¹˜çŸ¢é‡
 	Vec3 operator *(const Vec3& other) const
 	{
 		return {
@@ -73,7 +73,7 @@ public:
 		};
 	}
 
-	// ¾ØÕó³Ë·¨
+	// çŸ©é˜µä¹˜æ³•
 	Matrix3x3 operator *(const Matrix3x3& other) const
 	{
 		return {
@@ -89,7 +89,7 @@ public:
 		};
 	}
 
-	// ¾ÍµØ×ªÖÃ
+	// å°±åœ°è½¬ç½®
 	void transpose()
 	{
 		std::swap(_data[1], _data[3]);
@@ -97,7 +97,7 @@ public:
 		std::swap(_data[5], _data[7]);
 	}
 
-	// ×ªÖÃ¾ØÕó
+	// è½¬ç½®çŸ©é˜µ
 	Matrix3x3 transposed() const
 	{
 		return {
@@ -107,7 +107,7 @@ public:
 		};
 	}
 
-	// °éËæ¾ØÕó
+	// ä¼´éšçŸ©é˜µ
 	Matrix3x3 adj() const
 	{
 		return {
@@ -123,14 +123,14 @@ public:
 		};
 	}
 
-	// ĞĞÁĞÊ½
+	// è¡Œåˆ—å¼
 	double det() const
 	{
 		return _data[0] * _data[4] * _data[8] + _data[1] * _data[5] * _data[6] + _data[2] * _data[3] * _data[7]
 			- _data[2] * _data[4] * _data[6] - _data[1] * _data[3] * _data[8] - _data[0] * _data[5] * _data[7];
 	}
 
-	// Äæ¾ØÕó
+	// é€†çŸ©é˜µ
 	Matrix3x3 inverse() const
 	{
 		Matrix3x3 adj = this->adj();
@@ -139,7 +139,7 @@ public:
 		return adj / det;
 	}
 
-	// ×ª»»Îª×Ö·û´®
+	// è½¬æ¢ä¸ºå­—ç¬¦ä¸²
 	std::string to_string() const
 	{
 		return std::format("[{},{},{},\n {},{},{}\n {},{},{}]",

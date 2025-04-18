@@ -1,8 +1,10 @@
-#pragma once
+﻿#pragma once
+
 #include <string>
 #include <vector>
 
 #include "fmtlog.h"
+
 
 class DataItem
 {
@@ -184,5 +186,12 @@ public:
 #define BIND_DATA(v) \
 	if (!_binder.bind(_vehicle->_data_pool, #v, _##v)) \
 	{ \
-		failed_input += #v ","; \
+		failed_input += (#v ","); \
+	}
+
+
+#define BIND_DATA_NAME(n, v) \
+	if (!_binder.bind(_vehicle->_data_pool, n, v)) \
+	{ \
+		failed_input += (n ","); \
 	}

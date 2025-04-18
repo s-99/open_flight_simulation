@@ -1,4 +1,4 @@
-#include "sim_engine.h"
+ï»¿#include "sim_engine.h"
 
 #include <fstream>
 
@@ -7,6 +7,7 @@
 #include "dynamic_6dof.h"
 #include "engine.h"
 #include "Fcs.h"
+#include "sig_generator.h"
 #include "util.h"
 
 
@@ -52,6 +53,7 @@ bool SimEngine::parse_mission(const std::string& filename)
 	return true;
 }
 
+
 Vehicle* SimEngine::create_vehicle(const json& vehicle_config, const int id)
 {
 	auto type = vehicle_config["type"].get<std::string>();
@@ -91,7 +93,7 @@ Vehicle* SimEngine::create_vehicle(const json& vehicle_config, const int id)
 			return nullptr;
 		}
 	}
-	// °ó¶¨Êý¾Ý
+	// ç»‘å®šæ•°æ®
 	for (auto* sub_system : vehicle->_sub_systems)
 	{
 		if (!sub_system->bind_data())
@@ -127,10 +129,10 @@ SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_con
 	{
 		sub_system = new Dynamic6DOF();
 	}
-	//else if (type == "sig_generator")
-	//{
-	//	sub_system = new SigGenerator();
-	//}
+	else if (type == "sig_generator")
+	{
+		sub_system = new SigGenerator();
+	}
 	else
 	{
 		loge("Unknown sub system type: {}", type);

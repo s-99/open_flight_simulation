@@ -1,4 +1,4 @@
-{
+﻿{
   "type": "mission",
   "time_step": 0.01,
   "max_time": 10,
@@ -15,14 +15,14 @@
           "sig": [
             {
               "sig_name": "stick_push",
-              "sig_type": "step",
-              "t_start": 1,
-              "amp": 0.1
+              "sig_type": "const",
+              "value": 0.0
             },
             {
               "sig_name": "stick_right",
-              "sig_type": "const",
-              "value": 0.0
+              "sig_type": "step",
+              "t_start": 1,
+              "amp": 0.1
             },
             {
               "sig_name": "pedal_right",
@@ -44,11 +44,11 @@
         },
         {
           "type": "aerodynamic",
-          "recorder_filename": "aero.csv"
+          "recorder_filename": "aero_lat.csv"
         },
         {
           "type": "dynamic6dof",
-          "recorder_filename": "dyn.csv"
+          "recorder_filename": "dyn_lat.csv"
         }
       ]
     }

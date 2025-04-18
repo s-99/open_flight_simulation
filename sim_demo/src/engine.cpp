@@ -1,6 +1,4 @@
-#include "engine.h"
-
-#include "fmtlog.h"
+﻿#include "engine.h"
 
 void Engine::step(double dt, double t)
 {

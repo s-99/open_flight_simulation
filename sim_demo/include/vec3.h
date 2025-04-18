@@ -76,7 +76,7 @@ public:
 		return _data[0] * other._data[0] + _data[1] * other._data[1] + _data[2] * other._data[2];
 	}
 
-	Vec3 operator ^(const Vec3& other) const
+	Vec3 cross(const Vec3& other) const
 	{
 		return {
 			_data[1] * other._data[2] - _data[2] * other._data[1],

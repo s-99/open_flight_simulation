@@ -1,7 +1,8 @@
+ï»¿#include "dynamic_6dof.h"
+
 #include <json.hpp>
 #include <fstream>
 
-#include "dynamic_6dof.h"
 #include "vec3.h"
 #include "matrix3x3.h"
 #include "quat.h"
@@ -23,23 +24,23 @@ T rad2deg(T rad)
 }
 
 
-// ¶¯Á¦Ñ§·½³Ì×éÖÐµÄ12¸öºËÐÄÎ¢·Ö·½³Ì
+// åŠ¨åŠ›å­¦æ–¹ç¨‹ç»„ä¸­çš„12ä¸ªæ ¸å¿ƒå¾®åˆ†æ–¹ç¨‹
 auto dynamic_equation(
-	const Vec3& F,			// ÌåÖáÏµºÏÁ¦
-	const Vec3& M,			// ÌåÖáÏµºÏÁ¦¾à
-	const Vec3& V,			// ÌåÖáÏµÄÚµØËÙ·ÖÁ¿
-	const Vec3& Omega,		// ÌåÖáÏµÏà¶ÔÓÚµØÖáÏµµÄ½ÇËÙ¶ÈÔÚÌåÖáÏµÄÚµÄ·ÖÁ¿
-	const Quaternion& Q,	// ´ÓµØÖáÏµµ½ÌåÖáÏµµÄËÄÔªÊý
-	const Matrix3x3& I,		// ¹ßÐÔ¾ØÕó
-	const double m			// ÖÊÁ¿
+	const Vec3& F,			// ä½“è½´ç³»åˆåŠ›
+	const Vec3& M,			// ä½“è½´ç³»åˆåŠ›è·
+	const Vec3& V,			// ä½“è½´ç³»å†…åœ°é€Ÿåˆ†é‡
+	const Vec3& Omega,		// ä½“è½´ç³»ç›¸å¯¹äºŽåœ°è½´ç³»çš„è§’é€Ÿåº¦åœ¨ä½“è½´ç³»å†…çš„åˆ†é‡
+	const Quaternion& Q,	// ä»Žåœ°è½´ç³»åˆ°ä½“è½´ç³»çš„å››å…ƒæ•°
+	const Matrix3x3& I,		// æƒ¯æ€§çŸ©é˜µ
+	const double m			// è´¨é‡
 )
 {
-	const auto V_dot = F / m - Omega ^ V;
-	const auto Omega_dot = I.inverse() * (M - Omega ^ (I * Omega));
-	// QÊÇ´ÓµØÖáÏµµ½ÌåÖáÏµµÄËÄÔªÊý£¬µ«ÊÇÔÚÕâÀïÎÒÃÇÐèÒªµÄÊÇ´ÓÌåÖáÏµµ½µØÖáÏµµÄËÄÔªÊý£¬ËùÒÔÒªÈ¡Äæ
-	// ²¢ÇÒ¶ÔÊ¸Á¿Ðý×ªÓë×ø±êÖáÐý×ªÊÇ·´µÄ£¬ËùÒÔÒ²ÒªÈ¡Äæ
-	// Á½ÕßµÖÏû£¬ËùÒÔÕâÀï²»ÓÃÈ¡Äæ
-	const auto x_dot = Q ^ V;
+	const auto V_dot = F / m - Omega.cross(V);
+	const auto Omega_dot = I.inverse() * (M - Omega.cross(I * Omega));
+	// Qæ˜¯ä»Žåœ°è½´ç³»åˆ°ä½“è½´ç³»çš„å››å…ƒæ•°ï¼Œä½†æ˜¯åœ¨è¿™é‡Œæˆ‘ä»¬éœ€è¦çš„æ˜¯ä»Žä½“è½´ç³»åˆ°åœ°è½´ç³»çš„å››å…ƒæ•°ï¼Œæ‰€ä»¥è¦å–é€†
+	// å¹¶ä¸”å¯¹çŸ¢é‡æ—‹è½¬ä¸Žåæ ‡è½´æ—‹è½¬æ˜¯åçš„ï¼Œæ‰€ä»¥ä¹Ÿè¦å–é€†
+	// ä¸¤è€…æŠµæ¶ˆï¼Œæ‰€ä»¥è¿™é‡Œä¸ç”¨å–é€†
+	const auto x_dot = Q.rotate_vector(V);
 	const auto Q_dot = Q.derivative(Omega);
 	return std::make_tuple(V_dot, Omega_dot, x_dot, Q_dot);
 }
@@ -59,9 +60,15 @@ auto auxiliary_equation(const Vec3& Va, const Vec3& Va_dot, double rho)
 
 void Dynamic6DOF::step(double dt, double t)
 {
+	_binder.update();
+
+	Vec3 Fg = _quat.rotate_vector({ 0, 0, _mass * GRAVITY0 }); 
+
+	Vec3 F = _Fa + _Fe + Fg;
+	Vec3 M = _Ma + _Me;
 	auto [V_dot, Omega_dot, x_dot, Q_dot] = dynamic_equation(
-		{ _Fx, _Fy, _Fz },
-		{ _L, _M, _N },
+		F,
+		M,
 		_V,
 		_Omega,
 		_quat,
@@ -73,6 +80,7 @@ void Dynamic6DOF::step(double dt, double t)
 	_Omega += Omega_dot * dt;
 	_pos += x_dot * dt;
 	_quat += Q_dot * dt;
+	_quat.to_euler_degree(_euler);
 
 	_Va = _V;
 
@@ -81,6 +89,8 @@ void Dynamic6DOF::step(double dt, double t)
 	_mach = _Vel / sound_speed;
 
 	_h = -_pos[2];
+
+	_recorder.update(t);
 }
 
 
@@ -88,7 +98,7 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 {
 	logi("Dynamic6DOF::init\n");
 
-	// ÖÊÁ¿¼°¹ß¾ØÊý¾Ý³õÊ¼»¯
+	// è´¨é‡åŠæƒ¯çŸ©æ•°æ®åˆå§‹åŒ–
 	auto& dyn = _vehicle->_data_file["dyn"];
 	_mass = dyn["mass"];
 	double Ix = dyn["Ix"];
@@ -105,8 +115,16 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 
 	_pos = read_json_vec3(vehicle_config, "init_pos", {0, 0, -10});
 	_euler[2] = read_json_double(vehicle_config, "init_psi", 0);
+	_quat.from_euler_degree(_euler);
 	_V[0] = read_json_double(vehicle_config, "init_velocity", 0);
 	_Vel = _V[0];
+
+	_Va = _V;
+	_h = -_pos[2];
+
+	auto [density, sound_speed] = cal_std_atm(-_pos[2]);
+	std::tie(_Vel, _alpha, _beta, _alpha_dot, _q_bar) = auxiliary_equation(_Va, {0, 0, 0}, density);
+	_mach = _Vel / sound_speed;
 
 	reg_data("u", _V[0]);
 	reg_data("v", _V[1]);
@@ -124,6 +142,9 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 	reg_data("q1", _quat[1]);
 	reg_data("q2", _quat[2]);
 	reg_data("q3", _quat[2]);
+	reg_data("phi", _euler[0]);
+	reg_data("theta", _euler[1]);
+	reg_data("psi", _euler[2]);
 	reg_data("vel", _Vel);
 	reg_data("alpha", _alpha);
 	reg_data("beta", _beta);
@@ -132,5 +153,25 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 	reg_data("mach", _mach);
 	reg_data("h", _h);
 
+	return true;
+}
+
+
+bool Dynamic6DOF::bind_data()
+{
+	// ç»‘å®šæ•°æ®
+	std::string failed_input;
+	BIND_DATA_NAME("Fx", _Fa[0]);
+	BIND_DATA_NAME("Fy", _Fa[1]);
+	BIND_DATA_NAME("Fz", _Fa[2]);
+	BIND_DATA_NAME("L", _Ma[0]);
+	BIND_DATA_NAME("M", _Ma[1]);
+	BIND_DATA_NAME("N", _Ma[2]);
+	if (!failed_input.empty())
+	{
+		loge("Dynamic6DOF::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);
+		return false;
+	}
+	_recorder.update(0);
 	return true;
 }

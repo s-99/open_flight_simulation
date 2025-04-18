@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "vec3.h"
 
@@ -62,7 +62,7 @@ public:
 		return _data[index];
 	}
 
-	// ËÄÔªÊı³Ë·¨
+	// å››å…ƒæ•°ä¹˜æ³•
 	Quaternion operator *(const Quaternion& other) const
 	{
 		return {
@@ -119,7 +119,7 @@ public:
 		};
 	}
 
-	// ËÄÔªÊı³Ë±êÁ¿
+	// å››å…ƒæ•°ä¹˜æ ‡é‡
 	Quaternion operator *(const double& other) const
 	{
 		return {
@@ -130,55 +130,55 @@ public:
 		};
 	}
 
-	// ËÄÔªÊıµã³Ë
+	// å››å…ƒæ•°ç‚¹ä¹˜
 	double dot(const Quaternion& other) const
 	{
 		return _data[0] * other._data[0] + _data[1] * other._data[1] + _data[2] * other._data[2] + _data[3] * other._data[3];
 	}
 
-	// ¹²éîËÄÔªÊı
+	// å…±è½­å››å…ƒæ•°
 	Quaternion conjugate() const
 	{
 		return { _data[0], -_data[1], -_data[2], -_data[3] };
 	}
 
-	// ÄæËÄÔªÊı
+	// é€†å››å…ƒæ•°
 	Quaternion inverse() const
 	{
 		return conjugate() * (1.0 / length2());
 	}
 
-	// Êµ²¿
+	// å®éƒ¨
 	double real() const
 	{
 		return _data[0];
 	}
 
-	// Ğé²¿×÷ÎªÒ»¸öÊ¸Á¿·µ»Ø
+	// è™šéƒ¨ä½œä¸ºä¸€ä¸ªçŸ¢é‡è¿”å›
 	Vec3 vector() const
 	{
 		return { _data[1], _data[2], _data[3] };
 	}
 
-	// Ê¹ÓÃËÄÔªÊı¶ÔÊ¸Á¿½øĞĞĞı×ª£¬Èç¹û×ø±êÏµĞı×ª£¬ÔòĞèÒª¶ÔËÄÔªÊıÈ¡¹²éî
-	Vec3 operator ^(const Vec3& other) const
+	// ä½¿ç”¨å››å…ƒæ•°å¯¹çŸ¢é‡è¿›è¡Œæ—‹è½¬ï¼Œå¦‚æœåæ ‡ç³»æ—‹è½¬ï¼Œåˆ™éœ€è¦å¯¹å››å…ƒæ•°å–å…±è½­
+	Vec3 rotate_vector(const Vec3& v) const
 	{
-		return (*this * Quaternion(other) * conjugate()).vector();
+		return (*this * Quaternion(v) * conjugate()).vector();
 	}
 
-	// ËÄÔªÊı³¤¶È
+	// å››å…ƒæ•°é•¿åº¦
 	double length() const
 	{
 		return std::sqrt(_data[0] * _data[0] + _data[1] * _data[1] + _data[2] * _data[2] + _data[3] * _data[3]);
 	}
 
-	// ËÄÔªÊı³¤¶ÈµÄÆ½·½
+	// å››å…ƒæ•°é•¿åº¦çš„å¹³æ–¹
 	double length2() const
 	{
 		return _data[0] * _data[0] + _data[1] * _data[1] + _data[2] * _data[2] + _data[3] * _data[3];
 	}
 
-	// ËÄÔªÊı¹éÒ»»¯
+	// å››å…ƒæ•°å½’ä¸€åŒ–
 	double normalize()
 	{
 		const double len = length();
@@ -197,7 +197,7 @@ public:
 		return std::format("({:8.5f},{:8.5f},{:8.5f},{:8.5f})", _data[0], _data[1], _data[2], _data[3]);
 	}
 
-	// Å·À­½Ç×ªËÄÔªÊı
+	// æ¬§æ‹‰è§’è½¬å››å…ƒæ•°
 	void from_euler(const Vec3& euler)
 	{
 		const double phi = euler[0];
@@ -221,8 +221,8 @@ public:
 		from_euler(euler * (M_PI / 180.0));
 	}
 
-	// ËÄÔªÊı×ªÅ·À­½Ç
-	// ·µ»Øfalse±íÊ¾ÆæÒìµã£¬´ËÊ±£¬Ö»¼ÆËãtheta£¬²»¼ÆËãphiºÍpsi
+	// å››å…ƒæ•°è½¬æ¬§æ‹‰è§’
+	// è¿”å›falseè¡¨ç¤ºå¥‡å¼‚ç‚¹ï¼Œæ­¤æ—¶ï¼Œåªè®¡ç®—thetaï¼Œä¸è®¡ç®—phiå’Œpsi
 	bool to_euler(Vec3& euler) const
 	{
 		const double k = 2 * (_data[0] * _data[2] - _data[1] * _data[3]);

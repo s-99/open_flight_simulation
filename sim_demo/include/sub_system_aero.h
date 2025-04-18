@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+
 #include "aero_model.h"
 #include "data_pool.h"
 #include "sub_system.h"

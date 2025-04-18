@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 
 using std::vector;
@@ -7,32 +7,18 @@ using std::vector;
 inline
 int update_last_index(vector<double>& xx, double x, int& last_interval)
 {
-	const size_t n = xx.size();
+	const int n = static_cast<int>(xx.size());
 	if (n <= 2) {
 		last_interval = 0; return last_interval;
 	}
+	if (x < xx[0]) {
+		last_interval = 0; return last_interval;
+	}
+	if (x > xx[n - 2]) {
+		last_interval = n - 2; return last_interval;
+	}
 
-	const auto x_left = xx.begin() + last_interval;
-	if (*(x_left + 1) <= x) {
-		if (x >= xx[n - 2])  last_interval = static_cast<int>(n - 2); // last interval
-		else if (x < *(x_left + 2)) ++last_interval; // next interval
-		else { // search
-			const auto xe = xx.end();
-			last_interval += static_cast<int>(std::lower_bound(x_left, xe, x) - x_left);
-			if (xx[last_interval] > x) --last_interval;
-		}
-	}
-	else if (x < *x_left) {
-		if (x < xx[1]) last_interval = 0; // first interval
-		else if (*(x_left - 1) <= x) --last_interval; // previous interval
-		else { // search
-			last_interval = static_cast<int>(std::lower_bound(xx.begin(), x_left, x) - xx.begin());
-			if (xx[last_interval] > x) --last_interval;
-		}
-	}
-	else {
-		// x_left <= x < x_left + 1
-	}
+	last_interval = static_cast<int>(std::lower_bound(xx.begin(), xx.end(), x) - xx.begin());
 	return last_interval;
 }
 

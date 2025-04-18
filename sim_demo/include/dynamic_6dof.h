@@ -1,10 +1,12 @@
-#pragma once
+﻿#pragma once
+
 #include "data_recorder.h"
 #include "sub_system.h"
 #include "vehicle.h"
 #include "vec3.h"
 #include "quat.h"
 #include "matrix3x3.h"
+
 
 class Dynamic6DOF : public SubSystem
 {
@@ -15,7 +17,7 @@ public:
 	}
 	virtual ~Dynamic6DOF() = default;
 
-	bool bind_data() override { return true; }
+	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;
 	void step(double dt, double t) override;
 
@@ -26,8 +28,10 @@ public:
 	}
 
 	// inputs
-	double _Fx, _Fy, _Fz;
-	double _L, _M, _N;
+	Vec3 _Fa;
+	Vec3 _Ma;
+	Vec3 _Fe;
+	Vec3 _Me;
 
 	// outputs
 	Vec3 _V;
@@ -49,4 +53,6 @@ public:
 	double _mass;
 
 	DataRecorder _recorder;
+
+	DataBinder _binder;
 };

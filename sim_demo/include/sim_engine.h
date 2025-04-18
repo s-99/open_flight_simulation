@@ -1,11 +1,10 @@
-#pragma once
+ï»¿#pragma once
 
 #include "vehicle.h"
-
 #include <string>
 
 
-// ·ÂÕæÒıÇæ£¬ÓÃÓÚ¹ÜÀí·ÂÕæ¶ÔÏó¡¢Çı¶¯·ÂÕæÔËĞĞ
+// ä»¿çœŸå¼•æ“ï¼Œç”¨äºç®¡ç†ä»¿çœŸå¯¹è±¡ã€é©±åŠ¨ä»¿çœŸè¿è¡Œ
 class SimEngine
 {
 public:

@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+
 #include "vehicle.h"
 
 class Aircraft : public Vehicle

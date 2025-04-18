@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+
 #include "json.hpp"
 
 class SimEvent;

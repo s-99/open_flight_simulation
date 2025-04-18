@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+
 #include "data_pool.h"
 #include "sub_system.h"
 
@@ -10,7 +11,7 @@ public:
 	{
 		_class_name = "Fcs";
 	}
-	virtual ~Fcs() = default;
+	~Fcs() override = default;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;
