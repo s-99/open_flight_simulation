@@ -5,7 +5,8 @@
 class SimEvent;
 class Vehicle;
 
-using nlohmann::json;
+using json = nlohmann::ordered_json;
+
 
 class SubSystem
 {

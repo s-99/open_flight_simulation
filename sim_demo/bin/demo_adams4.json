@@ -1,7 +1,7 @@
 ﻿{
   "type": "mission",
   "time_step": 0.01,
-  "max_time": 10,
+  "max_time": 10.0,
   "vehicles": [
     {
       "type": "aircraft",
@@ -43,14 +43,10 @@
           "type": "engine"
         },
         {
-          "type": "aerodynamic",
-          "recorder_filename": "aero.csv"
-        },
-        {
-          "type": "dynamic6dof",
-          "recorder_filename": "dyn.csv",
-          "solver": "runge-kutta",
-          "solver_order":  4
+          "type": "6dof_aero",
+          "recorder_filename": "dyn_aero_adams.csv",
+          "solver": "adams-bashforth",
+          "solver_order": 4
         }
       ]
     }

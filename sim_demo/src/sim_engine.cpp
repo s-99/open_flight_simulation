@@ -8,6 +8,7 @@
 #include "engine.h"
 #include "Fcs.h"
 #include "sig_generator.h"
+#include "sub_system_6dof_aero.h"
 #include "util.h"
 
 
@@ -133,6 +134,10 @@ SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_con
 	{
 		sub_system = new SigGenerator();
 	}
+	else if (type == "6dof_aero")
+	{
+		sub_system = new SubSystem6DofAero();
+	}
 	else
 	{
 		loge("Unknown sub system type: {}", type);
@@ -160,9 +165,17 @@ bool SimEngine::step()
 		return false;
 	}
 	logi("SimEngine::step: {:.3f}\n", _time);
+	auto t0 = std::chrono::high_resolution_clock::now();
+	fmt::memory_buffer buf;
 	for (auto* vehicle : _vehicles)
 	{
 		vehicle->step(_time_step, _time);
+		const auto t1 = std::chrono::high_resolution_clock::now();
+		const auto dt = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0);
+		fmt::format_to(std::back_inserter(buf), "[{}]: {:<20} {:.3f}ms\n",
+			vehicle->_id, vehicle->_class_name, static_cast<double>(dt.count()) / 1000.0);
+		t0 = t1;
 	}
+	logi("SimEngine::step: vehicle step() time [t={:.3f}]: \n{}", _time, fmt::to_string(buf));
 	return true;
 }

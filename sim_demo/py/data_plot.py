@@ -1,14 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-
-
-def plot_data(ax, df, y_name, y_label=None, show_xlabel=False):
-    ax.plot(df['t'], df[y_name], linestyle='-', color='b')
-    ax.set_ylabel(y_label if y_label else y_name)
-    if show_xlabel:
-        ax.set_xlabel('t')
-
-    ax.grid(True)
+from plot_util import plot_data
 
 
 def plot_lon():
@@ -27,8 +19,6 @@ def plot_lon():
     plot_data(ax[3][1], dyn, 'alpha_d', r"$\dot{\alpha} (rad/s)$", True)
 
     fig.tight_layout()
-    plt.show()
-
     plt.show()
 
 
@@ -69,4 +59,4 @@ def plot_v():
 
 
 if __name__ == "__main__":
-    plot_lat()
+    plot_lon()

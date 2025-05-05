@@ -20,13 +20,7 @@ public:
 	}
 
 	virtual bool init(const json& vehicle_config);
-	virtual void step(double dt, double t)
-	{
-		for (auto* sub_system : _sub_systems)
-		{
-			sub_system->step(dt, t);
-		}
-	}
+	virtual void step(double dt, double t);
 	virtual void on_sim_event(SimEvent* event) {}
 
 	std::vector<SubSystem*> _sub_systems;

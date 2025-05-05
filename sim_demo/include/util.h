@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <corecrt_math_defines.h>
 #include <string>
 #include <vector>
 #include <format>
@@ -9,7 +10,7 @@
 
 using std::string;
 using std::vector;
-using nlohmann::json;
+using json = nlohmann::ordered_json;
 
 
 inline
@@ -181,4 +182,17 @@ Vec3 read_json_vec3(const json& data, const std::string& key, const Vec3& defaul
 		logi("json key {} not found\n", key);
 		return default_value;
 	}
+}
+
+
+template<typename T>
+T deg2rad(T deg)
+{
+	return deg / 180.0 * M_PI;
+}
+
+template<typename T>
+T rad2deg(T rad)
+{
+	return rad / M_PI * 180.0;
 }

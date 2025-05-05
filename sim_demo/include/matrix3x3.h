@@ -57,9 +57,9 @@ public:
 	Matrix3x3 operator /(const double other) const
 	{
 		return {
-			_data[0] * other, _data[1] * other, _data[2] * other,
-			_data[3] * other, _data[4] * other, _data[5] * other,
-			_data[6] * other, _data[7] * other, _data[8] * other
+			_data[0] / other, _data[1] / other, _data[2] / other,
+			_data[3] / other, _data[4] / other, _data[5] / other,
+			_data[6] / other, _data[7] / other, _data[8] / other
 		};
 	}
 
@@ -134,7 +134,6 @@ public:
 	Matrix3x3 inverse() const
 	{
 		Matrix3x3 adj = this->adj();
-		adj.transpose();
 		const double det = this->det();
 		return adj / det;
 	}

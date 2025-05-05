@@ -7,12 +7,12 @@
 #include "fmtlog.h"
 
 
-bool Table::parse(const string& name, const json::object_t& content)
+bool Table::parse(const string& name, const json& content)
 {
 	_name = name;
 	_dim = static_cast<int>(content.size()) - 1;
 	vector<double> v;
-	for (auto& [key, value] : content)
+	for (const auto& [key, value] : content.items())
 	{
 		if (starts_with(key, "x0:"))
 		{

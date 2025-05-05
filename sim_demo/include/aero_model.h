@@ -7,7 +7,7 @@
 #include "json.hpp"
 #include "interpolate.h"
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
 using std::string;
 using std::vector;
 using std::map;
@@ -25,7 +25,7 @@ public:
 	vector<vector<double>> _value;
 
 	Table() = default;
-	bool parse(const string& name, const json::object_t& content);
+	bool parse(const string& name, const json& content);
 	string dump(int n = 5) const;
 };
 

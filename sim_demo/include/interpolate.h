@@ -4,6 +4,37 @@
 using std::vector;
 
 
+//二分法定位
+inline
+size_t bisect_array(double* xx, size_t n, double x)
+{
+	size_t i = 0;
+	size_t j = n - 1;
+	size_t k = 0;
+	if (x <= xx[0])
+	{
+		return 0;
+	}
+	if (x > xx[j - 1])
+	{
+		return j - 1;
+	}
+	while (i < j)
+	{
+		k = (i + j) / 2;
+		if (xx[k] < x)
+		{
+			i = k + 1;
+		}
+		else
+		{
+			j = k;
+		}
+	}
+	return i - 1;
+}
+
+
 inline
 int update_last_index(vector<double>& xx, double x, int& last_interval)
 {
@@ -18,7 +49,7 @@ int update_last_index(vector<double>& xx, double x, int& last_interval)
 		last_interval = n - 2; return last_interval;
 	}
 
-	last_interval = static_cast<int>(std::lower_bound(xx.begin(), xx.end(), x) - xx.begin());
+	last_interval = static_cast<int>(bisect_array(xx.data(), n, x));
 	return last_interval;
 }
 
@@ -58,6 +89,8 @@ public:
 
 	double eval(double x) override
 	{
+		if (x <= _x[0]) return _y[0];
+		if (x >= _x.back()) return _y.back();
 		auto idx = update_last_index(_x, x, _last_index);
 		return _y[idx] + _k[idx] * (x - _x[idx]);
 	}
@@ -97,9 +130,37 @@ public:
 
 	double eval(double x0, double x1) override
 	{
+		if (x0 < _x0[0])
+		{
+			auto j = update_last_index(_x1, x1, _last_index1);
+			if (x1 < _x1[0]) return _y[0][0];
+			else if (x1 > _x1.back()) return _y.back()[0];
+			else return _y[j][0] + _k0[j][0] * (x1 - _x1[j]);
+		}
+		else if (x0 > _x0.back())
+		{
+			auto j = update_last_index(_x1, x1, _last_index1);
+			if (x1 < _x1[0]) return _y[0].back();
+			else if (x1 > _x1.back()) return _y.back().back();
+			else return _y[j].back() + _k0[j].back() * (x1 - _x1[j]);
+		}
+
+		if (x1 < _x1[0])
+		{
+			auto i = update_last_index(_x0, x0, _last_index0);
+			if (x0 < _x0[0]) return _y[0][0];
+			else if (x0 > _x0.back()) return _y.back()[0];
+			else return _y[0][i] + _k0[0][i] * (x0 - _x0[i]);
+		}
+		else if (x1 > _x1.back())
+		{
+			auto i = update_last_index(_x0, x0, _last_index0);
+			if (x0 < _x0[0]) return _y[0].back();
+			else if (x0 > _x0.back()) return _y.back().back();
+			else return _y.back()[i] + _k1.back()[i] * (x0 - _x0[i]);
+		}
 		auto i = update_last_index(_x0, x0, _last_index0);
 		auto j = update_last_index(_x1, x1, _last_index1);
-
 		const auto dx0 = (x0 - _x0[i]);
 		const auto dx1 = (x1 - _x1[j]);
 		return _y[j][i] + _k0[j][i] * dx0 + _k1[j][i] * dx1 + _k01[j][i] * dx0 * dx1;

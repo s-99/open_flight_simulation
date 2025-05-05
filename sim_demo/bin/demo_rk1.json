@@ -44,13 +44,13 @@
         },
         {
           "type": "aerodynamic",
-          "recorder_filename": "aero.csv"
+          "recorder_filename": "aero_rk1.csv"
         },
         {
           "type": "dynamic6dof",
-          "recorder_filename": "dyn.csv",
-          "solver": "runge-kutta",
-          "solver_order":  4
+          "recorder_filename": "dyn_rk1.csv",
+		  "solver": "runge-kutta",
+		  "solver_order":  1
         }
       ]
     }

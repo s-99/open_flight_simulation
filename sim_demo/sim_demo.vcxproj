@@ -114,6 +114,7 @@
       <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann;3rd_party\fmtlog\fmt\include;3rd_party\fmtlog;3rd_party\getopt</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,8 +129,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann;3rd_party\fmtlog\fmt\include;3rd_party\fmtlog</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;3rd_party\fparser;3rd_party\json\single_include\nlohmann;3rd_party\fmtlog\fmt\include;3rd_party\fmtlog;3rd_party\getopt</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <DisableSpecificWarnings>4244;4267</DisableSpecificWarnings>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,8 +148,12 @@
     <ClCompile Include="3rd_party\getopt\getopt.cpp" />
     <ClCompile Include="sim_demo.cpp" />
     <ClCompile Include="src\data_recorder.cpp" />
+    <ClCompile Include="src\ode.cpp" />
+    <ClCompile Include="src\ode_solver_adams_bashforth.cpp" />
+    <ClCompile Include="src\ode_solver_runge_kutta.cpp" />
     <ClCompile Include="src\sig_genarator.cpp" />
     <ClCompile Include="src\sim_engine.cpp" />
+    <ClCompile Include="src\sub_system_6dof_aero.cpp" />
     <ClCompile Include="src\sub_system_aero.cpp" />
     <ClCompile Include="src\aero_model.cpp" />
     <ClCompile Include="src\aircraft.cpp" />
@@ -161,11 +168,16 @@
     <ClInclude Include="3rd_party\fmtlog\fmtlog.h" />
     <ClInclude Include="3rd_party\getopt\getopt.hpp" />
     <ClInclude Include="include\data_recorder.h" />
+    <ClInclude Include="include\dynamic_equation.h" />
     <ClInclude Include="include\matrix3x3.h" />
+    <ClInclude Include="include\ode.h" />
+    <ClInclude Include="include\ode_solver_adams_bashforth.h" />
+    <ClInclude Include="include\ode_solver_runge_kutta.h" />
     <ClInclude Include="include\quat.h" />
     <ClInclude Include="include\sig_generator.h" />
     <ClInclude Include="include\sim_engine.h" />
     <ClInclude Include="include\sim_event.h" />
+    <ClInclude Include="include\sub_system_6dof_aero.h" />
     <ClInclude Include="include\sub_system_aero.h" />
     <ClInclude Include="include\aero_model.h" />
     <ClInclude Include="include\aircraft.h" />

@@ -66,6 +66,18 @@
     <ClCompile Include="3rd_party\getopt\getopt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\ode.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ode_solver_runge_kutta.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sub_system_6dof_aero.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ode_solver_adams_bashforth.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
@@ -126,6 +138,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="3rd_party\getopt\getopt.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ode_solver_runge_kutta.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sub_system_6dof_aero.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\dynamic_equation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ode_solver_adams_bashforth.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
