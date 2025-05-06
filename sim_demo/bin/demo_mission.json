@@ -1,7 +1,7 @@
 ﻿{
   "type": "mission",
   "time_step": 0.01,
-  "max_time": 10,
+  "max_time": 60,
   "vehicles": [
     {
       "type": "aircraft",
@@ -17,7 +17,7 @@
               "sig_name": "stick_push",
               "sig_type": "step",
               "t_start": 1,
-              "amp": 0.1
+              "amp": -0.1
             },
             {
               "sig_name": "stick_right",
@@ -37,7 +37,10 @@
           ]
         },
         {
-          "type": "fcs"
+          "type": "fcs",
+          "recorder_filename": "fcs.csv",
+          "solver": "runge-kutta",
+          "solver_order": 4
         },
         {
           "type": "engine"

@@ -18,7 +18,7 @@ public:
 	{
 		_class_name = "SubSystem6DofAero";
 	}
-	~SubSystem6DofAero() override = default;
+	~SubSystem6DofAero() override;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;

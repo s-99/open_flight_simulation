@@ -147,6 +147,9 @@
     <ClCompile Include="3rd_party\fparser\fparser.cc" />
     <ClCompile Include="3rd_party\getopt\getopt.cpp" />
     <ClCompile Include="sim_demo.cpp" />
+    <ClCompile Include="src\block.cpp" />
+    <ClCompile Include="src\block_factory.cpp" />
+    <ClCompile Include="src\block_trans_func.cpp" />
     <ClCompile Include="src\data_recorder.cpp" />
     <ClCompile Include="src\ode.cpp" />
     <ClCompile Include="src\ode_solver_adams_bashforth.cpp" />
@@ -167,6 +170,13 @@
   <ItemGroup>
     <ClInclude Include="3rd_party\fmtlog\fmtlog.h" />
     <ClInclude Include="3rd_party\getopt\getopt.hpp" />
+    <ClInclude Include="include\block.h" />
+    <ClInclude Include="include\block_intergrator.h" />
+    <ClInclude Include="include\block_lag_filter.h" />
+    <ClInclude Include="include\block_ode.h" />
+    <ClInclude Include="include\block_pid.h" />
+    <ClInclude Include="include\block_simple.h" />
+    <ClInclude Include="include\block_trans_func.h" />
     <ClInclude Include="include\data_recorder.h" />
     <ClInclude Include="include\dynamic_equation.h" />
     <ClInclude Include="include\matrix3x3.h" />

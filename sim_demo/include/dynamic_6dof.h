@@ -17,7 +17,7 @@ public:
 	{
 		_class_name = "Dynamic6DOF";
 	}
-	~Dynamic6DOF() override = default;
+	~Dynamic6DOF() override;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;

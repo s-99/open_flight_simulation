@@ -10,6 +10,12 @@
 #include "vehicle.h"
 
 
+Dynamic6DOF::~Dynamic6DOF()
+{
+	delete _solver;
+}
+
+
 void Dynamic6DOF::step(double dt, double t)
 {
 	_binder.update();

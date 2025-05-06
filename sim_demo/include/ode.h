@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <cassert>
+
 #include <valarray>
 
 typedef std::valarray<double> array_d;
@@ -25,18 +25,23 @@ private:
 	array_d _x;
 	array_d _x_dot;
 
-	OdeSolver*	_solver = nullptr;
-
 public:
-	ODE(const size_t state_count)
+	OdeSolver* _solver = nullptr;
+
+	ODE(const size_t state_count = 1)
 		: _x(state_count)
 		, _x_dot(state_count)
 	{
 	}
 
+	void set_state_count(const size_t state_count)
+	{
+		_x.resize(state_count);
+		_x_dot.resize(state_count);
+	}
+
 	virtual ~ODE()
 	{
-		delete _solver;
 	}
 
 	// 设置求解器

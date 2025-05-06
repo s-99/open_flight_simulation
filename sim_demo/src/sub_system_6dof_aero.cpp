@@ -10,6 +10,12 @@
 #include "vehicle.h"
 
 
+SubSystem6DofAero::~SubSystem6DofAero()
+{
+	delete _solver;
+}
+
+
 void SubSystem6DofAero::step(double dt, double t)
 {
 	ODE::step(dt, t);

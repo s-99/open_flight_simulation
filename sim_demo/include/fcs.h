@@ -2,6 +2,8 @@
 
 #include "data_pool.h"
 #include "sub_system.h"
+#include "block.h"
+#include "data_recorder.h"
 
 
 class Fcs : public SubSystem
@@ -17,11 +19,9 @@ public:
 	bool init(const json& vehicle_config, const json& sub_system_config) override;
 	void step(double dt, double t) override;
 
-	// inputs
-	double _stick_push, _stick_right, _pedal_right;
+	BlockSubSystem _fcs_model;
 
-	// outputs
-	double _de, _da, _dr, _df;
+	DataRecorder _recorder;
 
 	DataBinder _binder;
 };

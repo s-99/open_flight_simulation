@@ -78,6 +78,15 @@
     <ClCompile Include="src\ode_solver_adams_bashforth.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\block_trans_func.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\block.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\block_factory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sub_system.h">
@@ -153,6 +162,27 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\ode_solver_adams_bashforth.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_simple.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_trans_func.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_intergrator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_lag_filter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_ode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\block_pid.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

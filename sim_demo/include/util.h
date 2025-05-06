@@ -185,6 +185,29 @@ Vec3 read_json_vec3(const json& data, const std::string& key, const Vec3& defaul
 }
 
 
+inline
+std::vector<double> read_json_double_vector(const json& data, const std::string& key, const std::vector<double>& default_value = {})
+{
+	if (data.contains(key))
+	{
+		try
+		{
+			return data[key].get<std::vector<double>>();
+		}
+		catch (json::type_error& e)
+		{
+			logi("json key {} is not array, error={}\n", key, e.what());
+			return default_value;
+		}
+	}
+	else
+	{
+		logi("json key {} not found\n", key);
+		return default_value;
+	}
+}
+
+
 template<typename T>
 T deg2rad(T deg)
 {
