@@ -89,7 +89,7 @@ Vehicle* SimEngine::create_vehicle(const json& vehicle_config, const int id)
 		}
 		else
 		{
-			loge("failed to create sub system");
+			loge("failed to create sub system\n");
 			delete vehicle;
 			return nullptr;
 		}
@@ -140,7 +140,7 @@ SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_con
 	}
 	else
 	{
-		loge("Unknown sub system type: {}", type);
+		loge("Unknown sub system type: {}\n", type);
 		return nullptr;
 	}
 
@@ -148,7 +148,7 @@ SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_con
 	sub_system->_vehicle = parent;
 	if (!sub_system->init(vehicle_config, sub_system_config))
 	{
-		loge("Sub system init failed: {}", type);
+		loge("Sub system init failed: {}\n", type);
 		delete sub_system;
 		return nullptr;
 	}

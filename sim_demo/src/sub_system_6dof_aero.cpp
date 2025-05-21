@@ -42,7 +42,7 @@ bool SubSystem6DofAero::init(const json& vehicle_config, const json& sub_system_
 		};
 
 	// 初始化气动模型
-	if (!_model.parse(_vehicle->_data_file))
+	if (!_model.parse(_vehicle->_data_file["aero"]))
 	{
 		loge("parse aero model failed\n");
 		return false;

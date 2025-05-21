@@ -21,10 +21,9 @@ bool BlockTransFunc::init(const json& cfg)
 {
 	if (!Block::init(cfg))
 	{
-		loge("BlockTransFunc: Block::init() failed!\n");
+		loge("BlockTransFunc::init: Block::init failed!\n");
 		return false;
 	}
-
 	// 加载并解析传递函数
 	_num = read_json_double_vector(cfg, "num");
 	_den = read_json_double_vector(cfg, "den");

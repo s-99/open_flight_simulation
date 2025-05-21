@@ -122,12 +122,13 @@ bool Dynamic6DOF::bind_data()
 {
 	// 绑定数据
 	std::string failed_input;
-	BIND_DATA_NAME("Fx", _Fa[0]);
-	BIND_DATA_NAME("Fy", _Fa[1]);
-	BIND_DATA_NAME("Fz", _Fa[2]);
+	BIND_DATA_NAME("X", _Fa[0]);
+	BIND_DATA_NAME("Y", _Fa[1]);
+	BIND_DATA_NAME("Z", _Fa[2]);
 	BIND_DATA_NAME("L", _Ma[0]);
 	BIND_DATA_NAME("M", _Ma[1]);
 	BIND_DATA_NAME("N", _Ma[2]);
+	BIND_DATA_NAME("thrust", _Fe[0]);
 	if (!failed_input.empty())
 	{
 		loge("Dynamic6DOF::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);

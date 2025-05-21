@@ -97,6 +97,14 @@ public:
 };
 
 
+inline
+double interp1_linear(const vector<double>& x, const vector<double>& y, const double xx)
+{
+	InterpolatorLinear interpolator(x, y);
+	return interpolator.eval(xx);
+}
+
+
 class Interpolator2D : public Interpolator
 {
 public:

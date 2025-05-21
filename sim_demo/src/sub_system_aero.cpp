@@ -26,7 +26,7 @@ void SubSystemAero::step(double dt, double t)
 
 bool SubSystemAero::init(const json& vehicle_config, const json& sub_system_config)
 {
-	if (!_model.parse(_vehicle->_data_file))
+	if (!_model.parse(_vehicle->_data_file["aero"]))
 	{
 		loge("parse aero model failed\n");
 		return false;
@@ -34,9 +34,9 @@ bool SubSystemAero::init(const json& vehicle_config, const json& sub_system_conf
 
 	logi("load aero model success, content=\n{}\n", _model.dump());
 
-	_vehicle->_data_pool.reg_data("Fx", _Fx, "SubSystemAero");
-	_vehicle->_data_pool.reg_data("Fy", _Fy, "SubSystemAero");
-	_vehicle->_data_pool.reg_data("Fz", _Fz, "SubSystemAero");
+	_vehicle->_data_pool.reg_data("X", _Fx, "SubSystemAero");
+	_vehicle->_data_pool.reg_data("Y", _Fy, "SubSystemAero");
+	_vehicle->_data_pool.reg_data("Z", _Fz, "SubSystemAero");
 	_vehicle->_data_pool.reg_data("L", _L, "SubSystemAero");
 	_vehicle->_data_pool.reg_data("M", _M, "SubSystemAero");
 	_vehicle->_data_pool.reg_data("N", _N, "SubSystemAero");

@@ -141,13 +141,13 @@ int read_json_int(const json& data, const std::string& key, const int default_va
 		}
 		else
 		{
-			logi("json key {} is not double\n", key);
+			logi("json key \"{}\" is not double\n", key);
 			return default_value;
 		}
 	}
 	else
 	{
-		logi("json key {} not found\n", key);
+		logi("json key \"{}\" not found\n", key);
 		return default_value;
 	}
 }

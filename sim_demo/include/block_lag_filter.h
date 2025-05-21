@@ -18,6 +18,13 @@ public:
 		return Block::init(cfg);
 	}
 
+	bool init(double k, double T)
+	{
+		_k = k;
+		_T = T;
+		return true;
+	}
+
 	array_d derivative(const double t, const array_d& x) override
 	{
 		return { (*_input[0] * _k - x[0]) / _T};

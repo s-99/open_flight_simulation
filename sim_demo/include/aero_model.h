@@ -25,7 +25,8 @@ public:
 	vector<vector<double>> _value;
 
 	Table() = default;
-	bool parse(const string& name, const json& content);
+	virtual ~Table() = default;
+	virtual bool parse(const string& name, const json& content);
 	string dump(int n = 5) const;
 };
 

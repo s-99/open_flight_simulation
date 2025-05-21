@@ -33,6 +33,12 @@
               "sig_name": "df",
               "sig_type": "const",
               "value": 0.0
+            },
+            {
+              "sig_name": "throttle",
+              "sig_type": "step",
+              "t_start": 5,
+              "amp": 1.0
             }
           ]
         },

@@ -293,7 +293,7 @@ bool AeroModel::parse(const json& data)
 	{
 		if (!cell->parse())
 		{
-			loge("Parse cell error: {}", cell->_name);
+			loge("Parse cell error: {}\n", cell->_name);
 			return false;
 		}
 	}
