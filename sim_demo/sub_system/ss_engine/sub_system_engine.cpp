@@ -1,9 +1,23 @@
-﻿#include "engine.h"
+﻿#include "sub_system_engine.h"
 
 #include <json.hpp>
 #include <fstream>
 
 #include "util.h"
+
+
+DLL_EXPORT
+SubSystem* create_sub_system()
+{
+	return new SubSystemEngine();
+}
+
+
+DLL_EXPORT
+void destroy_sub_system(SubSystem* ss)
+{
+	delete ss;
+}
 
 
 bool EngineTable::parse(const string& name, const json& content)
@@ -42,7 +56,7 @@ double EngineTable::eval() const
 }
 
 
-void Engine::step(double dt, double t)
+void SubSystemEngine::step(double dt, double t)
 {
 	// 读取输入
 	_binder.update();
@@ -77,9 +91,9 @@ void Engine::step(double dt, double t)
 }
 
 
-bool Engine::init(const json& vehicle_config, const json& sub_system_config)
+bool SubSystemEngine::init(const json& vehicle_config, const json& sub_system_config)
 {
-	logi("Engine::init\n");
+	logi("SubSystemEngine::init\n");
 
 	auto& eng = _vehicle->_data_file["engine"];
 	_dim = read_json_int(eng, "dim", 2);
@@ -89,7 +103,7 @@ bool Engine::init(const json& vehicle_config, const json& sub_system_config)
 		_tables.resize(1);
 		if (!_tables[0].parse("T", eng["T"]))
 		{
-			loge("Engine::init: parse engine table failed\n");
+			loge("SubSystemEngine::init: parse engine table failed\n");
 			return false;
 		}
 	}
@@ -103,7 +117,7 @@ bool Engine::init(const json& vehicle_config, const json& sub_system_config)
 			auto& table = _tables.emplace_back();
 			if (!table.parse(key, value))
 			{
-				loge("Engine::init: parse engine table failed\n");
+				loge("SubSystemEngine::init: parse engine table failed\n");
 				return false;
 			}
 			_n_table.push_back(strtod(&key[1], nullptr));
@@ -111,7 +125,7 @@ bool Engine::init(const json& vehicle_config, const json& sub_system_config)
 	}
 	else
 	{
-		loge("Engine::init: invalid engine dim: {}\n", _dim);
+		loge("SubSystemEngine::init: invalid engine dim: {}\n", _dim);
 		return false;
 	}
 
@@ -130,7 +144,7 @@ bool Engine::init(const json& vehicle_config, const json& sub_system_config)
 }
 
 
-bool Engine::bind_data()
+bool SubSystemEngine::bind_data()
 {
 	std::string failed_input;
 	// 绑定数据
@@ -148,7 +162,7 @@ bool Engine::bind_data()
 
 	if (!failed_input.empty())
 	{
-		loge("Engine::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);
+		loge("SubSystemEngine::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);
 		return false;
 	}
 

@@ -9,15 +9,15 @@
 #include "ode.h"
 
 
-class Dynamic6DOF : public SubSystem, public ODE
+class SubSystemDynamic6DOF : public SubSystem, public ODE
 {
 public:
-	Dynamic6DOF()
+	SubSystemDynamic6DOF()
 		: ODE(13)
 	{
-		_class_name = "Dynamic6DOF";
+		_class_name = "SubSystemDynamic6DOF";
 	}
-	~Dynamic6DOF() override;
+	~SubSystemDynamic6DOF() override;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;
@@ -25,7 +25,7 @@ public:
 
 	void reg_data(const std::string& name, double& data)
 	{
-		_vehicle->_data_pool.reg_data(name, data, "Dynamic6DOF");
+		_vehicle->_data_pool.reg_data(name, data, "SubSystemDynamic6DOF");
 		_recorder.reg(name, data);
 	}
 

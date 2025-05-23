@@ -3,12 +3,8 @@
 #include <fstream>
 
 #include "aircraft.h"
-#include "sub_system_aero.h"
-#include "dynamic_6dof.h"
-#include "engine.h"
-#include "Fcs.h"
-#include "sig_generator.h"
-#include "sub_system_6dof_aero.h"
+#include "sub_system.h"
+
 #include "util.h"
 
 
@@ -112,48 +108,49 @@ Vehicle* SimEngine::create_vehicle(const json& vehicle_config, const int id)
 
 SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_config, const json& sub_system_config, const int id)
 {
-	auto type = sub_system_config["type"].get<std::string>();
-	SubSystem* sub_system = nullptr;
-	if (type == "fcs")
-	{
-		sub_system = new Fcs();
-	}
-	else if (type == "engine")
-	{
-		sub_system = new Engine();
-	}
-	else if (type == "aerodynamic")
-	{
-		sub_system = new SubSystemAero();
-	}
-	else if (type == "dynamic6dof")
-	{
-		sub_system = new Dynamic6DOF();
-	}
-	else if (type == "sig_generator")
-	{
-		sub_system = new SigGenerator();
-	}
-	else if (type == "6dof_aero")
-	{
-		sub_system = new SubSystem6DofAero();
-	}
-	else
-	{
-		loge("Unknown sub system type: {}\n", type);
-		return nullptr;
-	}
+	//auto type = sub_system_config["type"].get<std::string>();
+	//SubSystem* sub_system = nullptr;
+	//if (type == "fcs")
+	//{
+	//	sub_system = new Fcs();
+	//}
+	//else if (type == "engine")
+	//{
+	//	sub_system = new Engine();
+	//}
+	//else if (type == "aerodynamic")
+	//{
+	//	sub_system = new SubSystemAero();
+	//}
+	//else if (type == "dynamic6dof")
+	//{
+	//	sub_system = new Dynamic6DOF();
+	//}
+	//else if (type == "sig_generator")
+	//{
+	//	sub_system = new SigGenerator();
+	//}
+	//else if (type == "6dof_aero")
+	//{
+	//	sub_system = new SubSystem6DofAero();
+	//}
+	//else
+	//{
+	//	loge("Unknown sub system type: {}\n", type);
+	//	return nullptr;
+	//}
 
-	sub_system->_id = id;
-	sub_system->_vehicle = parent;
-	if (!sub_system->init(vehicle_config, sub_system_config))
-	{
-		loge("Sub system init failed: {}\n", type);
-		delete sub_system;
-		return nullptr;
-	}
+	//sub_system->_id = id;
+	//sub_system->_vehicle = parent;
+	//if (!sub_system->init(vehicle_config, sub_system_config))
+	//{
+	//	loge("Sub system init failed: {}\n", type);
+	//	delete sub_system;
+	//	return nullptr;
+	//}
 
-	return sub_system;
+	//return sub_system;
+	return nullptr;
 }
 
 

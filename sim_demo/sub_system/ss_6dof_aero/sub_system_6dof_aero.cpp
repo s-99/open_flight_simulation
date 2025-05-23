@@ -1,4 +1,4 @@
-﻿#include "dynamic_6dof.h"
+﻿#include "sub_system_6dof_aero.h"
 
 #include <json.hpp>
 #include <fstream>
@@ -10,25 +10,37 @@
 #include "vehicle.h"
 
 
-Dynamic6DOF::~Dynamic6DOF()
+DLL_EXPORT
+SubSystem* create_sub_system()
+{
+	return new SubSystem6DofAero();
+}
+
+
+DLL_EXPORT
+void destroy_sub_system(SubSystem* ss)
+{
+	delete ss;
+}
+
+
+SubSystem6DofAero::~SubSystem6DofAero()
 {
 	delete _solver;
 }
 
 
-void Dynamic6DOF::step(double dt, double t)
+void SubSystem6DofAero::step(double dt, double t)
 {
-	_binder.update();
-
 	ODE::step(dt, t);
 
 	_recorder.update(t);
 }
 
 
-bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config)
+bool SubSystem6DofAero::init(const json& vehicle_config, const json& sub_system_config)
 {
-	logi("Dynamic6DOF::init\n");
+	logi("SubSystem6DofAero::init\n");
 
 	// 质量及惯矩数据初始化
 	auto& dyn = _vehicle->_data_file["dyn"];
@@ -43,8 +55,18 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 			-Ixz, 0, Iz
 		};
 
+	// 初始化气动模型
+	if (!_model.parse(_vehicle->_data_file["aero"]))
+	{
+		loge("parse aero model failed\n");
+		return false;
+	}
+
 	_recorder.init(read_json_string(sub_system_config, "recorder_filename"));
 
+	logi("load aero model success, content=\n{}\n", _model.dump());
+
+	// 积分器初始化
 	// "runge-kutta", "adams-bashforth"
 	auto solver_name = read_json_string(sub_system_config, "solver");
 	auto solver_order = read_json_int(sub_system_config, "solver_order", 1);
@@ -97,6 +119,24 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 	reg_data("mach", _mach);
 	reg_data("h", _h);
 
+	reg_data("Fax", _Fa[0]);
+	reg_data("Fay", _Fa[1]);
+	reg_data("Faz", _Fa[2]);
+
+	reg_data("Max", _Ma[0]);
+	reg_data("May", _Ma[1]);
+	reg_data("Maz", _Ma[2]);
+
+	for (auto* input : _model._inputs)
+	{
+		_recorder.reg("i/" + input->_name, input->_value);
+	}
+
+	for (auto* c : _model._cells)
+	{
+		_recorder.reg("v/" + c->_name, c->_value);
+	}
+
 	array_d x(13);
 	x[0] = _V[0];
 	x[1] = _V[1];
@@ -118,20 +158,23 @@ bool Dynamic6DOF::init(const json& vehicle_config, const json& sub_system_config
 }
 
 
-bool Dynamic6DOF::bind_data()
+bool SubSystem6DofAero::bind_data()
 {
 	// 绑定数据
 	std::string failed_input;
-	BIND_DATA_NAME("X", _Fa[0]);
-	BIND_DATA_NAME("Y", _Fa[1]);
-	BIND_DATA_NAME("Z", _Fa[2]);
-	BIND_DATA_NAME("L", _Ma[0]);
-	BIND_DATA_NAME("M", _Ma[1]);
-	BIND_DATA_NAME("N", _Ma[2]);
-	BIND_DATA_NAME("thrust", _Fe[0]);
+
+	std::string bind_failed_names;
+	for (auto* v : _model._inputs)
+	{
+		if (!_aero_binder.bind(_vehicle->_data_pool, v->_name, v->_value))
+		{
+			bind_failed_names += v->_name + ",";
+		}
+	}
+
 	if (!failed_input.empty())
 	{
-		loge("Dynamic6DOF::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);
+		loge("SubSystem6DofAero::bind_data: {}[{}-{}] bind {} failed.\n", _class_name, _vehicle->_id, _id, failed_input);
 		return false;
 	}
 	_recorder.update(0);
@@ -144,22 +187,53 @@ bool Dynamic6DOF::bind_data()
 // x[3,4,5] = p,q,r
 // x[6,7,8] = x,y,z
 // x[9,10,11,12] = q0,q1,q2,q3
-array_d Dynamic6DOF::derivative(const double t, const array_d& x)
+array_d SubSystem6DofAero::derivative(const double t, const array_d& x)
 {
-	Vec3 V = { x[0], x[1], x[2] };
-	Vec3 Omega = { x[3], x[4], x[5] };
-	//Vec3 pos = { x[6], x[7], x[8] };
-	Quaternion quat = { x[9], x[10], x[11], x[12] };
-	Vec3 Fg = _quat.inverse().rotate_vector({ 0, 0, _mass * GRAVITY0 });
+	// 根据状态变量计算当前的飞行参数
+	_V = { x[0], x[1], x[2] };
+	_Omega = { x[3], x[4], x[5] };
+	_pos = { x[6], x[7], x[8] };
+	_quat = { x[9], x[10], x[11], x[12] };
 
+	_quat.to_euler_degree(_euler);
+
+	_Va = _V;
+	auto x_d =  get_dot();
+	Vec3 V_d = { x_d[0], x_d[1], x_d[2] };
+
+	auto [density, sound_speed] = cal_std_atm(-_pos[2]);
+	std::tie(_Vel, _alpha, _beta, _alpha_dot, _q_bar) = auxiliary_equation(_Va, V_d, density);
+	_mach = _Vel / sound_speed;
+
+	_h = -_pos[2];
+
+	const double cosa = cos(deg2rad(_alpha));
+	const double sina = sin(deg2rad(_alpha));
+	_Omega_s = {
+		_Omega[0] * cosa + _Omega[2] * sina,
+		_Omega[1],
+		_Omega[2] * cosa - _Omega[0] * sina
+	};
+
+	_aero_binder.update();
+	_model.eval();
+
+	_Fa[0] = _model.get_variable("X");
+	_Fa[1] = _model.get_variable("Y");
+	_Fa[2] = _model.get_variable("Z");
+	_Ma[0] = _model.get_variable("L");
+	_Ma[1] = _model.get_variable("M");
+	_Ma[2] = _model.get_variable("N");
+
+	Vec3 Fg = _quat.inverse().rotate_vector({ 0, 0, _mass * GRAVITY0 });
 	Vec3 F = _Fa + _Fe + Fg;
 	Vec3 M = _Ma + _Me;
 	auto [V_dot, Omega_dot, x_dot, Q_dot] = dynamic_equation(
 		F,
 		M,
-		V,
-		Omega,
-		quat,
+		_V,
+		_Omega,
+		_quat,
 		_I,
 		_mass
 	);
@@ -172,7 +246,7 @@ array_d Dynamic6DOF::derivative(const double t, const array_d& x)
 }
 
 
-void Dynamic6DOF::do_output(const double t, const array_d& x, const array_d& x_d)
+void SubSystem6DofAero::do_output(const double t, const array_d& x, const array_d& x_d)
 {
 	_V = { x[0], x[1], x[2] };
 	_Omega = { x[3], x[4], x[5] };

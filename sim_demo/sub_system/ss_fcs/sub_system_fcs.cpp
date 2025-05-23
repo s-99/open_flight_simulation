@@ -1,11 +1,25 @@
-﻿#include "Fcs.h"
+﻿#include "sub_system_fcs.h"
 #include "ode_solver_adams_bashforth.h"
 #include "ode_solver_runge_kutta.h"
 
 #include "vehicle.h"
 
 
-void Fcs::step(double dt, double t)
+DLL_EXPORT
+SubSystem* create_sub_system()
+{
+	return new SubSystemFcs();
+}
+
+
+DLL_EXPORT
+void destroy_sub_system(SubSystem* ss)
+{
+	delete ss;
+}
+
+
+void SubSystemFcs::step(double dt, double t)
 {
 	_binder.update();
 	_fcs_model.step(dt, t);
@@ -13,11 +27,11 @@ void Fcs::step(double dt, double t)
 }
 
 
-bool Fcs::init(const json& vehicle_config, const json& sub_system_config)
+bool SubSystemFcs::init(const json& vehicle_config, const json& sub_system_config)
 {
 	if (!_fcs_model.init(_vehicle->_data_file["fcs"]))
 	{
-		loge("Fcs::init: {}[{}-{}] init fcs model failed.\n", _class_name, _vehicle->_id, _id);
+		loge("SubSystemFcs::init: {}[{}-{}] init fcs model failed.\n", _class_name, _vehicle->_id, _id);
 		return false;
 	}
 
@@ -37,7 +51,7 @@ bool Fcs::init(const json& vehicle_config, const json& sub_system_config)
 	int i = 0;
 	for (auto& o : _fcs_model._output_sig)
 	{
-		_vehicle->_data_pool.reg_data(o._name, _fcs_model.get_output(i), "Fcs");
+		_vehicle->_data_pool.reg_data(o._name, _fcs_model.get_output(i), "SubSystemFcs");
 		i++;
 	}
 
@@ -51,7 +65,7 @@ bool Fcs::init(const json& vehicle_config, const json& sub_system_config)
 }
 
 
-bool Fcs::bind_data()
+bool SubSystemFcs::bind_data()
 {
 	std::string failed_input;
 	for (auto& i : _fcs_model._input_sig)

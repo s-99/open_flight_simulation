@@ -6,14 +6,14 @@
 #include "data_recorder.h"
 
 
-class Fcs : public SubSystem
+class SubSystemFcs : public SubSystem
 {
 public:
-	Fcs()
+	SubSystemFcs()
 	{
-		_class_name = "Fcs";
+		_class_name = "SubSystemFcs";
 	}
-	~Fcs() override = default;
+	~SubSystemFcs() override = default;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;

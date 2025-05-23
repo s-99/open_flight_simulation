@@ -19,14 +19,14 @@ public:
 };
 
 
-class Engine : public SubSystem
+class SubSystemEngine : public SubSystem
 {
 public:
-	Engine()
+	SubSystemEngine()
 	{
-		_class_name = "Engine";
+		_class_name = "SubSystemEngine";
 	}
-	~Engine() override = default;
+	~SubSystemEngine() override = default;
 
 	bool bind_data() override;
 	bool init(const json& vehicle_config, const json& sub_system_config) override;

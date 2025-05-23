@@ -7,6 +7,20 @@
 #include "util.h"
 
 
+DLL_EXPORT
+SubSystem* create_sub_system()
+{
+	return new SubSystemAero();
+}
+
+
+DLL_EXPORT
+void destroy_sub_system(SubSystem* ss)
+{
+	delete ss;
+}
+
+
 void SubSystemAero::step(double dt, double t)
 {
 	_binder.update();

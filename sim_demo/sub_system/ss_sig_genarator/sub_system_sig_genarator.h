@@ -52,14 +52,14 @@ struct SigSin : public Sig
     }
 };
 
-class SigGenerator : public SubSystem
+class SubSystemSigGenerator : public SubSystem
 {
 public:
-	SigGenerator()
+	SubSystemSigGenerator()
 	{
-		_class_name = "SigGenerator";
+		_class_name = "SubSystemSigGenerator";
 	}
-	~SigGenerator() override
+	~SubSystemSigGenerator() override
 	{
 		for (auto* builder : _sig_builders)
 		{
