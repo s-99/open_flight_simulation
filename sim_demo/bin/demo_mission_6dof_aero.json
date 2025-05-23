@@ -37,7 +37,10 @@
           ]
         },
         {
-          "type": "fcs"
+          "type": "fcs",
+          "recorder_filename": "fcs.csv",
+          "solver": "runge-kutta",
+          "solver_order": 4
         },
         {
           "type": "engine"
@@ -45,8 +48,8 @@
         {
           "type": "6dof_aero",
           "recorder_filename": "dyn_aero.csv",
-		      "solver": "runge-kutta",
-          "solver_order": 4
+          "solver": "runge-kutta",
+          "solver_order":  4
         }
       ]
     }

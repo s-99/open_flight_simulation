@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sub_system_sig_genarator.cpp" />
+    <ClCompile Include="sub_system_sig_generator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sub_system_sig_genarator.h" />
+    <ClInclude Include="sub_system_sig_generator.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -30,6 +30,7 @@
     <ProjectGuid>{CCD43B33-CFCC-4B3C-AA71-2A6F6FE867DD}</ProjectGuid>
     <RootNamespace>ssaero</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>ss_sig_generator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

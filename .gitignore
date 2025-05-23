@@ -45,3 +45,5 @@
 *.recipe
 *.db-shm
 *.db-wal
+*.iobj
+*.ipdb

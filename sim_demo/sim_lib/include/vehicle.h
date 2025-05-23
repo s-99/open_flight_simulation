@@ -11,13 +11,7 @@ class Vehicle
 {
 public:
 	Vehicle() = default;
-	virtual ~Vehicle()
-	{
-		for (auto* ss: _sub_systems)
-		{
-			delete ss;
-		}
-	}
+	virtual ~Vehicle() = default;
 
 	virtual bool init(const json& vehicle_config);
 	virtual void step(double dt, double t);

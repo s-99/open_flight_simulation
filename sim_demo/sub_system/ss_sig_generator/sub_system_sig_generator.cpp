@@ -1,5 +1,5 @@
 ﻿#include "fmtlog.h"
-#include "sub_system_sig_genarator.h"
+#include "sub_system_sig_generator.h"
 #include "util.h"
 #include "vehicle.h"
 

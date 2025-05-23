@@ -22,6 +22,7 @@ public:
 	Vehicle* _vehicle = nullptr;
 
 	std::string _class_name;
+	std::string _type;
 	int _id = 0;
 
 };

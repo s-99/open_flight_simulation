@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sub_system_aero.cpp">
+    <ClCompile Include="sub_system_sig_generator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sub_system_aero.h">
+    <ClInclude Include="sub_system_sig_generator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

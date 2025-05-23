@@ -8,6 +8,35 @@
 #include "util.h"
 
 
+SimEngine::~SimEngine()
+{
+	for (auto* vehicle : _vehicles)
+	{
+		for (auto* ss : vehicle->_sub_systems)
+		{
+			auto it = _dll_wrappers.find(ss->_type);
+			if (it != _dll_wrappers.end())
+			{
+				it->second._func_destroy(ss);
+			}
+			else
+			{
+				loge("SimEngine::~SimEngine: failed to find dll for sub system: {}\n", ss->_class_name);
+			}
+		}
+		delete vehicle;
+	}
+
+	for (const auto& [type, wrapper] : _dll_wrappers)
+	{
+		if (wrapper._dll)
+		{
+			FreeLibrary(wrapper._dll);
+		}
+	}
+}
+
+
 bool SimEngine::parse_mission(const std::string& filename)
 {
 	std::ifstream f(filename);
@@ -108,50 +137,86 @@ Vehicle* SimEngine::create_vehicle(const json& vehicle_config, const int id)
 
 SubSystem* SimEngine::create_sub_system(Vehicle* parent, const json& vehicle_config, const json& sub_system_config, const int id)
 {
-	//auto type = sub_system_config["type"].get<std::string>();
-	//SubSystem* sub_system = nullptr;
-	//if (type == "fcs")
-	//{
-	//	sub_system = new Fcs();
-	//}
-	//else if (type == "engine")
-	//{
-	//	sub_system = new Engine();
-	//}
-	//else if (type == "aerodynamic")
-	//{
-	//	sub_system = new SubSystemAero();
-	//}
-	//else if (type == "dynamic6dof")
-	//{
-	//	sub_system = new Dynamic6DOF();
-	//}
-	//else if (type == "sig_generator")
-	//{
-	//	sub_system = new SigGenerator();
-	//}
-	//else if (type == "6dof_aero")
-	//{
-	//	sub_system = new SubSystem6DofAero();
-	//}
-	//else
-	//{
-	//	loge("Unknown sub system type: {}\n", type);
-	//	return nullptr;
-	//}
+	auto type = read_json_string(sub_system_config, "type");
+	if (type.empty())
+	{
+		loge("SimEngine::create_sub_system: SubSystem type is empty.\n");
+		return nullptr;
+	}
 
-	//sub_system->_id = id;
-	//sub_system->_vehicle = parent;
-	//if (!sub_system->init(vehicle_config, sub_system_config))
-	//{
-	//	loge("Sub system init failed: {}\n", type);
-	//	delete sub_system;
-	//	return nullptr;
-	//}
+	auto it = _dll_wrappers.find(type);
+	if (it == _dll_wrappers.end())
+	{
+		if (!load_dll(type))
+		{
+			loge("SimEngine::create_sub_system: failed to load dll for type: {}\n", type);
+			return nullptr;
+		}
+		it = _dll_wrappers.find(type);
+	}
 
-	//return sub_system;
-	return nullptr;
+	SubSystem* sub_system = it->second._func_create();
+	if (!sub_system)
+	{
+		loge("SimEngine::create_sub_system: failed to create sub system: {}\n", type);
+		return nullptr;
+	}
+
+	sub_system->_type = type;
+	sub_system->_id = id;
+	sub_system->_vehicle = parent;
+	if (!sub_system->init(vehicle_config, sub_system_config))
+	{
+		loge("Sub system init failed: {}\n", type);
+		delete sub_system;
+		return nullptr;
+	}
+
+	return sub_system;
 }
+
+
+bool SimEngine::load_dll(const std::string& type)
+{
+	SubSystemDllWrapper wrapper;
+
+	// 拼接DLL名称
+	std::string dll_name = std::string("sub_system\\ss_") + type;
+#ifdef _DEBUG
+	dll_name += "d";
+#endif
+	dll_name += ".dll";
+
+	// 加载DLL
+	wrapper._dll = LoadLibraryA(dll_name.c_str());
+	if (!wrapper._dll)
+	{
+		loge("SimEngine::load_dll: failed to load \"{}\"\n", dll_name);
+		return false;
+	}
+
+	// 读取函数create_sub_system
+	wrapper._func_create = reinterpret_cast<func_create_sub_system>(GetProcAddress(wrapper._dll, "create_sub_system"));
+	if (!wrapper._func_create)
+	{
+		loge("SimEngine::load_dll: failed to get function \"create_sub_system\" in \"{}\"", dll_name);
+		FreeLibrary(wrapper._dll);
+		return false;
+	}
+
+	// 读取函数destroy_sub_system
+	wrapper._func_destroy = reinterpret_cast<func_destroy_sub_system>(GetProcAddress(wrapper._dll, "destroy_sub_system"));
+	if (!wrapper._func_destroy)
+	{
+		loge("SimEngine::load_dll: failed to get function \"destroy_sub_system\" in \"{}\"", dll_name);
+		FreeLibrary(wrapper._dll);
+		return false;
+	}
+
+	_dll_wrappers[type] = wrapper;
+	return true;
+}
+
 
 
 bool SimEngine::step()

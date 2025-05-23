@@ -1,7 +1,5 @@
-﻿#include "sub_system_aero.h"
+﻿#include "sub_system_aerodynamic.h"
 #include "vehicle.h"
-
-#include <cstdio>
 
 #include "fmtlog.h"
 #include "util.h"
