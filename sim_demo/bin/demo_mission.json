@@ -1,7 +1,7 @@
 ﻿{
   "type": "mission",
   "time_step": 0.01,
-  "max_time": 60,
+  "max_time": 10,
   "vehicles": [
     {
       "type": "aircraft",

@@ -218,7 +218,6 @@ bool SimEngine::load_dll(const std::string& type)
 }
 
 
-
 bool SimEngine::step()
 {
 	_time += _time_step;
@@ -240,4 +239,56 @@ bool SimEngine::step()
 	}
 	logi("SimEngine::step: vehicle step() time [t={:.3f}]: \n{}", _time, fmt::to_string(buf));
 	return true;
+}
+
+
+void SimEngine::start()
+{
+	_interval = std::chrono::milliseconds(static_cast<int>(_time_step * 1000));
+	_thread = std::thread([this]() { run(); });
+}
+
+
+void SimEngine::run()
+{
+	auto last_start = std::chrono::steady_clock::now();
+	while (!_stop)
+	{
+		auto start = std::chrono::steady_clock::now();
+		double delta_ms = std::chrono::duration<double, std::milli>(start - last_start).count();
+		if (abs(_time_step * 1000 - delta_ms) > 1.0e-3)
+		{
+			logw("SimEngine::run: time step mismatch: expected {:.3f}ms, got {:.3f}ms\n", _time_step * 1000, delta_ms);
+		}
+		//logw("SimEngine::run: delta={:.3f}ms\n", delta_ms);
+		last_start = start;
+
+		if (!step())
+		{
+			break;
+		}
+		if (abs(_time - round(_time)) < 1.0e-6)
+		{
+			fmt::print("sim time: {:.3f}\n", _time);
+		}
+		//std::this_thread::sleep_until(start + _interval);
+		while (std::chrono::steady_clock::now() < start + _interval)
+		{
+			// 空循环（占用 CPU）
+		}
+	}
+	logi("SimEngine::run: simulation ended at t={:.3f}\n", _time);
+}
+
+
+void SimEngine::join()
+{
+	if (_thread.joinable())
+	{
+		_thread.join();
+	}
+	else
+	{
+		logw("SimEngine::join: thread not joinable\n");
+	}
 }

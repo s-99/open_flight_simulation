@@ -40,4 +40,28 @@ public:
 	double _time = 0.0;
 	double _time_step = 0.01;
 	double _max_time = 0.0;
+
+	// ========================================================================
+	// 新增代码
+
+	// 启动独立仿真线程
+	void start();
+
+	// 仿真线程函数
+	void run();
+
+	// 等待仿真线程结束
+	void join();
+
+	// 停止仿真线程
+	void stop() { _stop = true; }
+
+	// 仿真时间间隔，单位毫秒
+	std::chrono::milliseconds _interval;
+
+	// 仿真线程
+	std::thread _thread;
+
+	// 停止标志
+	bool _stop = false;
 };
