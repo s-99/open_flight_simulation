@@ -2,12 +2,14 @@
 
 #include <fstream>
 
+#include "util.h"
+
 
 bool Vehicle::init(const json& vehicle_config)
 {
 	logi("Vehicle::init\n");
 
-	auto data_file = vehicle_config["data_file"].get<std::string>();
+	auto data_file = read_json_string(vehicle_config, "data_file");
 	std::ifstream f(data_file);
 	try
 	{
@@ -18,6 +20,8 @@ bool Vehicle::init(const json& vehicle_config)
 		loge("Parse error: {}", e.what());
 		return false;
 	}
+
+	_3d_model = read_json_string(vehicle_config, "3d_model");
 
 	return true;
 }

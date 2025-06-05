@@ -1,13 +1,14 @@
 ﻿{
   "type": "mission",
   "time_step": 0.01,
-  "max_time": 10,
+  "max_time": 30,
   "vehicles": [
     {
       "type": "aircraft",
       "data_file": "fat.json",
+      "3d_model": "fat.ive",
       "init_pos": [ 0, 0, -100 ],
-      "init_psi": 0,
+      "init_psi": 30,
       "init_velocity": 30,
       "sub_systems": [
         {

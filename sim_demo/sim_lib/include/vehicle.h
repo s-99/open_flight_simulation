@@ -24,4 +24,6 @@ public:
 
 	std::string _class_name;
 	int _id = 0;
+
+	std::string _3d_model;
 };

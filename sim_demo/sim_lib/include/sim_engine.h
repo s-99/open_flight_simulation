@@ -2,7 +2,9 @@
 #include <windows.h>
 
 #include "vehicle.h"
+
 #include <string>
+#include <mutex>
 
 
 typedef SubSystem* (*func_create_sub_system)();
@@ -42,7 +44,7 @@ public:
 	double _max_time = 0.0;
 
 	// ========================================================================
-	// 新增代码
+	// 独立仿真线程相关代码
 
 	// 启动独立仿真线程
 	void start();
@@ -64,4 +66,26 @@ public:
 
 	// 停止标志
 	bool _stop = false;
+
+	// 仿真是否已完成
+	bool _finished = false;
+
+	// ========================================================================
+	// 新增：可由外部访问的数据
+
+	// 每顶层仿真对象的状态信息
+	std::vector<std::valarray<double>> _vehicle_states;
+	DataBinder _vehicle_states_binder;
+
+	// 用来保护_vehicle_states
+	mutable std::mutex _mutex;
+
+	// 绑定数据
+	bool bind_vehicle_state(const std::vector<std::vector<std::string>>& names);
+
+	// 更新绑定的数据
+	void update_vehicle_state();
+
+	// 读取绑定的数据
+	std::vector<std::valarray<double>> get_vehicle_states() const;
 };

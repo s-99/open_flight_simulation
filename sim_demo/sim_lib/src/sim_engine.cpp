@@ -260,23 +260,27 @@ void SimEngine::run()
 		{
 			logw("SimEngine::run: time step mismatch: expected {:.3f}ms, got {:.3f}ms\n", _time_step * 1000, delta_ms);
 		}
-		//logw("SimEngine::run: delta={:.3f}ms\n", delta_ms);
 		last_start = start;
 
+		// 仿真时间推进
 		if (!step())
 		{
 			break;
 		}
+
+		// 更新输出的状态数据
+		update_vehicle_state();
+
 		if (abs(_time - round(_time)) < 1.0e-6)
 		{
 			fmt::print("sim time: {:.3f}\n", _time);
 		}
-		//std::this_thread::sleep_until(start + _interval);
 		while (std::chrono::steady_clock::now() < start + _interval)
 		{
 			// 空循环（占用 CPU）
 		}
 	}
+	_finished = true;
 	logi("SimEngine::run: simulation ended at t={:.3f}\n", _time);
 }
 
@@ -291,4 +295,48 @@ void SimEngine::join()
 	{
 		logw("SimEngine::join: thread not joinable\n");
 	}
+}
+
+
+bool SimEngine::bind_vehicle_state(const std::vector<std::vector<std::string>>& names)
+{
+	_vehicle_states.resize(_vehicles.size());
+	for (size_t i = 0; i < _vehicles.size(); i++)
+	{
+		_vehicle_states[i].resize(names[i].size());
+	}
+
+	for (size_t i = 0; i < _vehicles.size(); i++)
+	{
+		if (i >= names.size())
+		{
+			loge("bind_vehicle_state: vehicle index out of range: {}\n", i);
+			return false;
+		}
+		int j = 0;
+		for (const auto& name : names[i])
+		{
+			if (!_vehicle_states_binder.bind(_vehicles[i]->_data_pool, name, _vehicle_states[i][j]))
+			{
+				loge("bind_vehicle_state: failed to bind {} for vehicle {}\n", name, i);
+				return false;
+			}
+			j++;
+		}
+	}
+	return true;
+}
+
+
+void SimEngine::update_vehicle_state()
+{
+	std::lock_guard<std::mutex> lock(_mutex);
+	_vehicle_states_binder.update();
+}
+
+
+std::vector<std::valarray<double>> SimEngine::get_vehicle_states() const
+{
+	std::lock_guard<std::mutex> lock(_mutex);
+	return _vehicle_states;
 }

@@ -18,9 +18,26 @@
     <ClCompile Include="sim_main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="model3d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="env3d.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\bin\fat.json" />
     <None Include="..\bin\demo_mission.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="model3d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="env3d.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="manipulator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

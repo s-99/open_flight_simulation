@@ -326,6 +326,16 @@
 				"type": "gain",
 				"name": "block6",
 				"k": -10
+			},
+			{
+				"type": "sum",
+				"name": "block7",
+				"sign": "+-"
+			},
+			{
+				"type": "sum",
+				"name": "block8",
+				"sign": "--"
 			}
 		],
 		"connections": [
@@ -368,6 +378,26 @@
 			{
 				"from": "pedal_right",
 				"to": "block6"
+			},
+			{
+				"from": "block4",
+				"to": "block7",
+				"to_idx": 0
+			},
+			{
+				"from": "block6",
+				"to": "block7",
+				"to_idx": 1
+			},
+			{
+				"from": "block4",
+				"to": "block8",
+				"to_idx": 0
+			},
+			{
+				"from": "block6",
+				"to": "block8",
+				"to_idx": 1
 			}
 		],
 		"output": [
@@ -382,6 +412,22 @@
 			{
 				"name": "dr",
 				"block": "block6"
+			},
+			{
+				"name": "dal",
+				"block": "block5"
+			},
+			{
+				"name": "dar",
+				"block": "block5"
+			},
+			{
+				"name": "der",
+				"block": "block7"
+			},
+			{
+				"name": "del",
+				"block": "block8"
 			}
 		]
 	},
