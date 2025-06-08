@@ -5,38 +5,17 @@
   "vehicles": [
     {
       "type": "aircraft",
-      "data_file": "fat.json",
+      "data_file": "fat_manual_control.json",
       "3d_model": "fat.ive",
       "init_pos": [ 0, 0, -100 ],
       "init_psi": 30,
       "init_velocity": 30,
       "sub_systems": [
         {
-          "type": "sig_generator",
-          "sig": [
-            {
-              "sig_name": "stick_push",
-              "sig_type": "step",
-              "t_start": 1,
-              "amp": -0.1
-            },
-            {
-              "sig_name": "stick_right",
-              "sig_type": "const",
-              "value": 0.0
-            },
-            {
-              "sig_name": "pedal_right",
-              "sig_type": "const",
-              "value": 0.0
-            },
-            {
-              "sig_name": "throttle",
-              "sig_type": "step",
-              "t_start": 5,
-              "amp": 1.0
-            }
-          ]
+          "type": "joystick",
+          "trim_push": 0.3,
+          "trim_push_button": 5,
+          "trim_pull_button": 7
         },
         {
           "type": "fcs",
@@ -55,7 +34,7 @@
           "type": "dynamic6dof",
           "recorder_filename": "dyn.csv",
           "solver": "runge-kutta",
-          "solver_order":  4
+          "solver_order": 4
         }
       ]
     }

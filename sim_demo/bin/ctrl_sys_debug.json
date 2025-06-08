@@ -1,0 +1,108 @@
+{
+    "input" :
+    [
+        "alpha",
+        "beta"
+    ],
+    "blocks":
+    [
+        {
+            "type" : "integrator",
+            "name" : "block1"
+        },
+        {
+            "type" : "lag_filter",
+            "name" : "block2",
+            "k": 1.0,
+            "T": 10.0
+        },
+        {
+            "type" : "transfer_function",
+            "name" : "block3",
+            "num" : [1],
+            "den" : [10, 1]
+        },
+        {
+            "type" : "sum",
+            "name" : "block4",
+            "sign": "+-"
+        },
+        {
+            "type" : "saturation",
+            "name" : "block5",
+            "lower": -0.1,
+            "upper": 0.1
+        },
+        {
+            "type" : "sum",
+            "name" : "block6",
+            "sign": "++"
+        }
+    ],
+    "connections":
+    [
+        {
+            "from" : "alpha",
+            "to" : "block1"
+        },
+        {
+            "from" : "alpha",
+            "to" : "block2"
+        },
+        {
+            "from" : "alpha",
+            "to" : "block3"
+        },
+        {
+            "from" : "block2",
+            "to" : "block4",
+            "to_idx" : 0
+        },
+        {
+            "from" : "block3",
+            "to" : "block4",
+            "to_idx" : 1
+        },
+        {
+            "from" : "block3",
+            "to" : "block5"
+        },
+        {
+            "from" : "block5",
+            "to" : "block6",
+            "to_idx" : 0
+        },
+        {
+            "from" : "beta",
+            "to" : "block6",
+            "to_idx" : 1
+        }
+    ],
+    "output" :
+    [
+        {
+            "name" : "a",
+            "block" : "block1"
+        },
+        {
+            "name" : "b",
+            "block" : "block2"
+        },
+        {
+            "name" : "c",
+            "block" : "block4"
+        },
+        {
+            "name" : "d",
+            "block" : "block3"
+        },
+        {
+            "name" : "e",
+            "block" : "block5"
+        },
+        {
+            "name" : "f",
+            "block" : "block6"
+        }
+    ]
+}

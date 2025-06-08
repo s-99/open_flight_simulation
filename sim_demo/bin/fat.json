@@ -2,11 +2,11 @@
 	"aero":	{
 		"table": {
 			"tground_effect_factor_lift": {
-				"x0:h_b_mac_ft": [  0.0000,  0.1000,  0.1500,  0.2000,  0.3000,  0.4000,  0.5000,  0.6000,  0.7000,  0.8000,  0.9000,  1.0000,  1.1000],
+				"x0:h_b": [  0.0000,  0.1000,  0.1500,  0.2000,  0.3000,  0.4000,  0.5000,  0.6000,  0.7000,  0.8000,  0.9000,  1.0000,  1.1000],
 				"data": [  1.203000,  1.127000,  1.090000,  1.073000,  1.046000,  1.055000,  1.019000,  1.013000,  1.008000,  1.006000,  1.003000,  1.002000,  1.000000]
 			},
 			"tground_effect_factor_drag": {
-				"x0:h_b_mac_ft": [  0.0000,  0.1000,  0.1500,  0.2000,  0.3000,  0.4000,  0.5000,  0.6000,  0.7000,  0.8000,  0.9000,  1.0000,  1.1000],
+				"x0:h_b": [  0.0000,  0.1000,  0.1500,  0.2000,  0.3000,  0.4000,  0.5000,  0.6000,  0.7000,  0.8000,  0.9000,  1.0000,  1.1000],
 				"data": [  0.480000,  0.515000,  0.629000,  0.709000,  0.815000,  0.882000,  0.928000,  0.962000,  0.988000,  1.000000,  1.000000,  1.000000,  1.000000]
 			},
 			"tCLwbh": {
@@ -21,14 +21,6 @@
 				"x0:alpha_rad": [ -0.1047, -0.0698, -0.0349,  0.0000,  0.0349,  0.0698,  0.1396,  0.1571,  0.1745,  0.2094],
 				"data": [  1.505000,  1.388000,  1.349000,  1.397000,  1.519000,  1.647000,  1.673000,  1.632000,  1.519000,  1.342000]
 			},
-			"tCLdF1L": {
-				"x0:flap_pos_deg": [-20.0000,-15.0000,-10.0000, -5.0000,  0.0000,  5.0000, 10.0000, 13.0000, 16.0000],
-				"data": [ -0.033860, -0.031150, -0.021410, -0.010700,  0.000000,  0.010700,  0.021410,  0.027540,  0.032720]
-			},
-			"tCLdF1R": {
-				"x0:flap_pos_deg": [-20.0000,-15.0000,-10.0000, -5.0000,  0.0000,  5.0000, 10.0000, 13.0000, 16.0000],
-				"data": [ -0.033860, -0.031150, -0.021410, -0.010700,  0.000000,  0.010700,  0.021410,  0.027540,  0.032720]
-			},
 			"tCLDe": {
 				"x0:elevator_pos_rad": [ -0.3491, -0.2618, -0.1745, -0.0873,  0.0000,  0.0873,  0.1745,  0.2269,  0.2793],
 				"data": [ -0.067710, -0.062300, -0.042820, -0.021410,  0.000043,  0.021410,  0.042820,  0.055070,  0.065440]
@@ -36,36 +28,6 @@
 			"tCD": {
 				"x0:alpha_rad": [ -0.1047, -0.0698, -0.0349,  0.0000,  0.0349,  0.0698,  0.1396,  0.1571,  0.1745,  0.2094],
 				"data": [  0.027710,  0.024760,  0.026450,  0.033280,  0.045250,  0.062790,  0.115500,  0.132300,  0.147000,  0.175000]
-			},
-			"tCdDf1L": {
-				"x0:alpha_deg": [ -6.0000, -4.0000, -2.0000,  0.0000,  2.0000,  4.0000,  8.0000,  9.0000, 10.0000, 12.0000],
-				"x1:flap_pos_deg": [-20.0000,-15.0000,-10.0000, -5.0000,  0.0000,  5.0000, 10.0000, 13.0000, 16.0000],
-				"data": [
-				0.002068,  0.001845,  0.001634,  0.001423,  0.001212,  0.001001,  0.000566,  0.000448,  0.000324,  0.000019,
-				0.001070,  0.000929,  0.000794,  0.000661,  0.000527,  0.000394,  0.000117,  0.000043, -0.000036, -0.000229,
-				-0.000001, -0.000001, -0.000000, -0.000000, -0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000001,
-				-0.000233, -0.000092,  0.000042,  0.000176,  0.000310,  0.000443,  0.000719,  0.000794,  0.000873,  0.001066,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000
-				]
-			},
-			"tCdDf1R": {
-				"x0:alpha_deg": [ -6.0000, -4.0000, -2.0000,  0.0000,  2.0000,  4.0000,  8.0000,  9.0000, 10.0000, 12.0000],
-				"x1:flap_pos_deg": [-20.0000,-15.0000,-10.0000, -5.0000,  0.0000,  5.0000, 10.0000, 13.0000, 16.0000],
-				"data": [
-				0.002068,  0.001845,  0.001634,  0.001423,  0.001212,  0.001001,  0.000566,  0.000448,  0.000324,  0.000019,
-				0.001070,  0.000929,  0.000794,  0.000661,  0.000527,  0.000394,  0.000117,  0.000043, -0.000036, -0.000229,
-				-0.000001, -0.000001, -0.000000, -0.000000, -0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000001,
-				-0.000233, -0.000092,  0.000042,  0.000176,  0.000310,  0.000443,  0.000719,  0.000794,  0.000873,  0.001066,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,
-				0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000,  0.000000
-				]
 			},
 			"tCdDe": {
 				"x0:alpha_rad": [ -0.1047, -0.0698, -0.0349,  0.0000,  0.0349,  0.0698,  0.1396,  0.1571,  0.1745,  0.2094],
@@ -102,7 +64,7 @@
 				"x0:alpha_rad": [ -0.1047, -0.0698, -0.0349,  0.0000,  0.0349,  0.0698,  0.1396,  0.1571,  0.1745,  0.2094],
 				"data": [ -0.015140,  0.017570,  0.051710,  0.087660,  0.125100,  0.163700,  0.242900,  0.262900,  0.278800,  0.305200]
 			},
-			"tClDs4": {
+			"tClda": {
 				"x0:left_aileron_pos_rad": [ -1.1170, -0.6981, -0.3491, -0.1745,  0.0000,  0.1745,  0.3491,  0.6981,  1.1170],
 				"data": [ -0.075250, -0.062600, -0.036110, -0.018050,  0.000000,  0.018050,  0.036110,  0.062600,  0.075250]
 			},
@@ -167,96 +129,54 @@
 			}
 		},
 		"model": {
-			"bw_ft": "5.6168",
-			"r_aero_rad_sec": "rs",
-			"cbarw_ft": ".9843",
+			"bw": "1.712",
+			"cbarw": ".3",
+			"Sw_sqft": "0.474",
+			"alpha_rad": "d2r(alpha)",
 			"alphadot_rad_sec": "d2r(alpha_d)",
-			"q_aero_rad_sec": "qs",
-			"p_aero_rad_sec": "ps",
-			"ci2vel": "cbarw_ft/(2*vel/0.3048)",
-			"Sw_sqft": "5.1021",
+			"beta_rad": "d2r(beta)",
+			"ci2vel": "cbarw/(2*vel)",
+			"bi2vel": "bw/(2*vel)",
 			"elevator_pos_rad": "d2r(de)",
 			"left_aileron_pos_rad": "-d2r(da)",
-			"qbar_psf": "qq/(0.4535923699994/pow(0.3048,2)*9.8065)",
-			"beta_rad": "d2r(beta)",
 			"rudder_pos_rad": "d2r(dr)",
-			"h_b_mac_ft": "h/0.3048/bw_ft",
-			"bi2vel": "bw_ft/(2*vel/0.3048)",
-			"alpha_rad": "d2r(alpha)",
-			"alpha_deg": "alpha",
-			"flap_pos_deg": "df",
+			"qbar": "qq",
+			"h_b": "h/bw",
 			"ground_effect_factor_lift": "#tground_effect_factor_lift",
 			"ground_effect_factor_drag": "#tground_effect_factor_drag",
-			"tCLwbh": "#tCLwbh",
-			"CLwbh": "ground_effect_factor_lift*qbar_psf*Sw_sqft*tCLwbh",
-			"tCLq": "#tCLq",
-			"CLq": "q_aero_rad_sec*qbar_psf*Sw_sqft*ci2vel*tCLq",
-			"tCLad": "#tCLad",
-			"CLad": "alphadot_rad_sec*qbar_psf*Sw_sqft*ci2vel*tCLad",
-			"tCLdF1L": "#tCLdF1L",
-			"CLdF1L": "qbar_psf*Sw_sqft*tCLdF1L",
-			"tCLdF1R": "#tCLdF1R",
-			"CLdF1R": "qbar_psf*Sw_sqft*tCLdF1R",
-			"tCLDe": "#tCLDe",
-			"CLDe": "qbar_psf*Sw_sqft*tCLDe",
-			"LIFT": "CLwbh+CLq+CLad+CLdF1L+CLdF1R+CLDe",
-			"tCD": "#tCD",
-			"CD": "ground_effect_factor_lift*qbar_psf*Sw_sqft*tCD",
-			"tCdDf1L": "#tCdDf1L",
-			"CdDf1L": "qbar_psf*Sw_sqft*tCdDf1L",
-			"tCdDf1R": "#tCdDf1R",
-			"CdDf1R": "qbar_psf*Sw_sqft*tCdDf1R",
-			"tCdDe": "#tCdDe",
-			"CdDe": "qbar_psf*Sw_sqft*tCdDe",
-			"DRAG": "CD+CdDf1L+CdDf1R+CdDe",
-			"tCyb": "#tCyb",
-			"Cyb": "qbar_psf*Sw_sqft*beta_rad*tCyb",
-			"tCyp": "#tCyp",
-			"Cyp": "p_aero_rad_sec*qbar_psf*Sw_sqft*bi2vel*tCyp",
-			"SIDE": "Cyb+Cyp",
-			"tClb": "#tClb",
-			"Clb": "qbar_psf*Sw_sqft*bw_ft*beta_rad*tClb",
-			"tClp": "#tClp",
-			"Clp": "qbar_psf*Sw_sqft*bw_ft*bi2vel*p_aero_rad_sec*tClp",
-			"tClr": "#tClr",
-			"Clr": "qbar_psf*Sw_sqft*bw_ft*bi2vel*r_aero_rad_sec*tClr",
-			"tClDs4": "#tClDs4",
-			"ClDs4": "qbar_psf*Sw_sqft*bw_ft*tClDs4",
-			"CldF1": ".39*(CLdF1R*CLdF1L)",
-			"ROLL": "Clb+Clp+Clr+ClDs4+CldF1",
-			"tCm_basic": "#tCm_basic",
-			"Cm_basic": "qbar_psf*Sw_sqft*cbarw_ft*tCm_basic",
-			"tCmq": "#tCmq",
-			"Cmq": "qbar_psf*Sw_sqft*cbarw_ft*ci2vel*q_aero_rad_sec*tCmq",
-			"tCmadot": "#tCmadot",
-			"Cmadot": "qbar_psf*Sw_sqft*cbarw_ft*ci2vel*alphadot_rad_sec*tCmadot",
-			"tCmDe": "#tCmDe",
-			"CmDe": "qbar_psf*Sw_sqft*cbarw_ft*tCmDe",
-			"tCmDf1L": "#tCmDf1L",
-			"CmDf1L": "qbar_psf*Sw_sqft*cbarw_ft*tCmDf1L",
-			"tCmDf1R": "#tCmDf1R",
-			"CmDf1R": "qbar_psf*Sw_sqft*cbarw_ft*tCmDf1R",
-			"PITCH": "Cm_basic+Cmq+Cmadot+CmDe+CmDf1L+CmDf1R",
-			"tCnb": "#tCnb",
-			"Cnb": "qbar_psf*Sw_sqft*bw_ft*beta_rad*tCnb",
-			"tCnp": "#tCnp",
-			"Cnp": "qbar_psf*Sw_sqft*bw_ft*bi2vel*p_aero_rad_sec*tCnp",
-			"tCnr": "#tCnr",
-			"Cnr": "qbar_psf*Sw_sqft*bw_ft*bi2vel*r_aero_rad_sec*tCnr",
-			"CnDf1": ".39*(CdDf1R*CdDf1L)",
-			"tCnDa": "#tCnDa",
-			"CnDa": "qbar_psf*Sw_sqft*bw_ft*tCnDa",
-			"CnDr": "-qbar_psf*Sw_sqft*bw_ft*rudder_pos_rad*0.06",
-			"YAW": "Cnb+Cnp+Cnr+CnDf1+CnDa+CnDr",
-			"Ch_alpha": "#Ch_alpha",
-			"Ch_delta_elevator": "#Ch_delta_elevator",
-			"elev_hinge_moment_ft_lbs": "qbar_psf*Sw_sqft*.1158*.1676*(alpha_rad*Ch_alpha*elevator_pos_rad*Ch_delta_elevator)",
-			"X": "(LIFT*sin(alpha_rad)-DRAG*cos(alpha_rad))*0.4535923699994*9.8065",
-			"Y": "SIDE*0.4535923699994*9.8065",
-			"Z": "(-LIFT*cos(alpha_rad)-DRAG*sin(alpha_rad))*0.4535923699994*9.8065",
-			"L": "ROLL*0.4535923699994*9.8065*0.3048",
-			"M": "PITCH*0.4535923699994*9.8065*0.3048",
-			"N": "YAW*0.4535923699994*9.8065*0.3048"
+			"CLwbh": "#tCLwbh",
+			"CLq": "#tCLq",
+			"CLad": "#tCLad",
+			"dCLde": "#tCLDe",
+			"LIFT": "qbar*Sw_sqft*(CLwbh*ground_effect_factor_lift + CLq*ci2vel*qs + CLad*ci2vel*alphadot_rad_sec + dCLde)",
+			"CD": "#tCD",
+			"dCdDe": "#tCdDe",
+			"DRAG": "qbar*Sw_sqft*(CD*ground_effect_factor_drag + dCdDe)",
+			"Cyb": "#tCyb",
+			"Cyp": "#tCyp",
+			"SIDE": "qbar*Sw_sqft*(Cyb*beta_rad + Cyp*bi2vel*ps)",
+			"Clb": "#tClb",
+			"Clp": "#tClp",
+			"Clr": "#tClr",
+			"dClda": "#tClda",
+			"ROLL": "qbar*Sw_sqft*bw*(Clb*beta_rad + Clp*bi2vel*ps + Clr*bi2vel*rs + dClda)",
+			"Cm_basic": "#tCm_basic",
+			"Cmq": "#tCmq",
+			"Cmadot": "#tCmadot",
+			"dCmde": "#tCmDe",
+			"PITCH": "qbar*Sw_sqft*cbarw*(Cm_basic + Cmq*ci2vel*qs + Cmadot*ci2vel*alphadot_rad_sec + dCmde)",
+			"Cnb": "#tCnb",
+			"Cnp": "#tCnp",
+			"Cnr": "#tCnr",
+			"dCnda": "#tCnDa",
+			"Cndr": "-0.06",
+			"YAW": "qbar*Sw_sqft*bw*(Cnb*beta_rad + Cnp*bi2vel*ps + Cnr*bi2vel*rs + dCnda + Cndr*rudder_pos_rad)",
+			"X": "LIFT*sin(alpha_rad)-DRAG*cos(alpha_rad)",
+			"Y": "SIDE",
+			"Z": "-LIFT*cos(alpha_rad)-DRAG*sin(alpha_rad)",
+			"L": "ROLL",
+			"M": "PITCH",
+			"N": "YAW"
 		},
 		"input": {
 			"h": 0.0,
@@ -271,8 +191,7 @@
 			"beta": 0.0,
 			"de": 0.0,
 			"da": 0.0,
-			"dr": 0.0,
-			"df": 0.0
+			"dr": 0.0
 		}
 	},
 	"dyn": {

@@ -4,6 +4,7 @@
 #include <osgViewer/Viewer>
 #include <osgDB/ReadFile>
 #include <osgSim/DOFTransform>
+#include <osg/Switch>
 
 
 class DOFCollector : public osg::NodeVisitor
@@ -41,6 +42,9 @@ public:
 
     // 从硬盘加载的三维模型
     osg::Node* _model = nullptr;
+
+    // 用于控制模型的显示和隐藏
+	osg::Switch* _model_switch = nullptr;
 
 	// 用于控制模型整体运动的 DOFTransform 节点
 	osgSim::DOFTransform* _model_transform = nullptr;

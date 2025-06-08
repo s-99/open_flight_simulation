@@ -24,6 +24,10 @@ bool Model3d::init(const std::string& model_file)
 	_model_transform->setName("ModelTransform");
 	_model_transform->addChild(_model);
 
+	_model_switch = new osg::Switch();
+	_model_switch->setName("ModelSwitch");
+	_model_switch->addChild(_model_transform);
+
 	return true;
 }
 
@@ -39,6 +43,7 @@ void Model3d::update(std::valarray<double>& state)
 
 	_model_transform->setCurrentTranslate(_position);
 	_model_transform->setCurrentHPR({ -osg::inDegrees(_psi), osg::inDegrees(_theta), osg::inDegrees(_phi) });
+	_model_transform->setHPRMultOrder(osgSim::DOFTransform::HPR);
 	_model_transform->setCurrentScale({ 1, 1, 1});
 
 	// state[6...] = control surface
@@ -84,7 +89,7 @@ bool init_3d_models(SimEngine& sim_engine, osg::Group* root, std::vector<Model3d
 		}
 		logi("Loaded 3D model for vehicle[{}]: {}\n", i, vehicle->_3d_model);
 		// 添加到场景树
-		root->addChild(models[i]._model_transform);
+		root->addChild(models[i]._model_switch);
 	}
 
 	// 搜集模型需要的仿真数据名称

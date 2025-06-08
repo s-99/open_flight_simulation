@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <osgSim/DOFTransform>
+#include "model3d.h"
 
 #include <osgViewer/ViewerEventHandlers>
 
@@ -8,8 +8,8 @@
 class FirstPerson : public osgGA::CameraManipulator
 {
 public:
-	FirstPerson(osg::ref_ptr<osgSim::DOFTransform> t)
-		: _transform(t)
+	FirstPerson(Model3d& m)
+		: _model3d(m)
 	{
 	}
 
@@ -26,13 +26,16 @@ public:
 	// 世界坐标系 -> 摄相机坐标系 (ViewMatrix)
 	osg::Matrixd getInverseMatrix() const override
 	{
-		osg::Matrix m;
-		_transform->computeWorldToLocalMatrix(m, nullptr);
-		return m * osg::Matrixd::rotate(osg::inDegrees(-90.0), osg::Vec3d(1, 0, 0));
+		_model3d._model_switch->setAllChildrenOff(); // 隐藏模型
+		return osg::Matrixd::translate(-_model3d._position)
+			* osg::Matrix::rotate(osg::inDegrees(_model3d._psi), osg::Vec3d(0, 0, 1))
+			* osg::Matrix::rotate(osg::inDegrees(-_model3d._theta), osg::Vec3d(1, 0, 0))
+			* osg::Matrix::rotate(osg::inDegrees(-_model3d._phi), osg::Vec3d(0, 1, 0))
+			* osg::Matrix::rotate(osg::inDegrees(-90.0), osg::Vec3d(1, 0, 0));
 	}
 
 private:
-	osg::ref_ptr<osgSim::DOFTransform> _transform;
+	Model3d& _model3d;
 };
 
 
@@ -40,8 +43,8 @@ private:
 class NodeTracker : public osgGA::CameraManipulator
 {
 public:
-	NodeTracker(osg::ref_ptr<osgSim::DOFTransform> t)
-		: _transform(t)
+	NodeTracker(Model3d& m)
+		: _model3d(m)
 	{
 	}
 
@@ -58,8 +61,9 @@ public:
 	// 世界坐标系 -> 摄相机坐标系 (ViewMatrix)
 	osg::Matrixd getInverseMatrix() const override
 	{
+		_model3d._model_switch->setAllChildrenOn();
 		// 组合变换矩阵
-		return osg::Matrixd::translate(-_transform->getCurrentTranslate())
+		return osg::Matrixd::translate(-_model3d._position)
 			* osg::Matrixd::rotate(osg::inDegrees(_yaw), osg::Vec3d(0, 0, 1))
 			* osg::Matrixd::rotate(osg::inDegrees(-90.0 - _pitch), osg::Vec3d(1, 0, 0))
 			* osg::Matrixd::translate(0, 0, -_dist);
@@ -94,15 +98,13 @@ public:
 				break;
 			}
 			return true;
-		case osgGA::GUIEventAdapter::FRAME:
-			return false;
 		default:
 			return false;
 		}
 	}
 
 private:
-	osg::ref_ptr<osgSim::DOFTransform> _transform;
+	Model3d& _model3d;
 	double _yaw = 0;    // 左右旋转角度
 	double _pitch = 0;  // 上下旋转角度
 	double _dist = 10; // 摄像机距离

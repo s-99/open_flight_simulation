@@ -71,9 +71,6 @@ int main()
 	osgViewer::Viewer viewer;
 	viewer.setSceneData(root);
 
-	// 设置查看器参数
-	viewer.addEventHandler(new osgGA::StateSetManipulator(viewer.getCamera()->getOrCreateStateSet()));
-
 	// 设置窗口大小
 	viewer.setUpViewInWindow(100, 100, 1920, 1080);
 
@@ -83,13 +80,15 @@ int main()
 	auto& m0 = models[0];
 
 	auto* key_switch = new osgGA::KeySwitchMatrixManipulator;
-	auto* node_tracker = new NodeTracker(models[0]._model_transform);
-	auto* first_person = new FirstPerson(models[0]._model_transform);
+	auto* node_tracker = new NodeTracker(m0);
+	auto* first_person = new FirstPerson(m0);
 	key_switch->addMatrixManipulator('1', "node tracker", node_tracker);
 	key_switch->addMatrixManipulator('2', "first person", first_person);
 
 	viewer.setCameraManipulator(key_switch);
 
+	// 设置查看器参数
+	viewer.addEventHandler(new osgGA::StateSetManipulator(viewer.getCamera()->getOrCreateStateSet()));
 	viewer.addEventHandler(new osgViewer::HelpHandler());
 
 	viewer.realize();
